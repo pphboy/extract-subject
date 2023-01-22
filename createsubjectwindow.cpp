@@ -10,6 +10,7 @@ CreateSubjectWindow::CreateSubjectWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CreateSubjectWindow)
 {
+    qDebug() << parent << endl;
     ui->setupUi(this);
     ui->currentMajorName->hide();
     this->setWindowFlags(Qt::WindowCloseButtonHint);
@@ -31,12 +32,17 @@ MainWindow * CreateSubjectWindow::getRealParent()
     return this->realParent;
 }
 
+bool CreateSubjectWindow::addSubject(QString name)
+{
+    this->ui->majorLineEdit->setText(name);
+    this->subjectService.addSubject(name);
+}
+
 void CreateSubjectWindow::closeEvent(QCloseEvent *event)
 {
     // 开启主窗口
     this->realParent->show();
 }
-
 
 
 
@@ -46,7 +52,8 @@ void CreateSubjectWindow::on_addCategory_clicked()
     QString text=  QInputDialog::getText(this, tr("添加分类"),
                                           tr("请输入分类名"), QLineEdit::Normal,
                                           "", &ok,Qt::WindowFlags(),Qt::ImhDate);
-    this->acs->addCategory(text);
+    this->subjectService.addSubject(text);
+
     qDebug() << text <<  text.isEmpty()  << ok << endl;
 }
 

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "mainwindow.h"
-#include "service/addclassservice.h"
+#include "config/subjectservice.h"
 
 namespace Ui {
 class CreateSubjectWindow;
@@ -20,6 +20,7 @@ public:
     ~CreateSubjectWindow();
     void setRealParent(MainWindow* p);
     MainWindow* getRealParent();
+    bool addSubject(QString name);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -34,7 +35,7 @@ private:
     int windowStatus; // 窗口的状态
     Ui::CreateSubjectWindow *ui;
     MainWindow* realParent = nullptr;
-    AddClassService *acs = new AddClassService;
+    SubjectService subjectService;
 };
 
 #endif // CREATESUBJECTWINDOW_H

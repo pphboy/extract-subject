@@ -3,7 +3,7 @@ msvc{
         QMAKE_CXXFLAGS += /utf-8
 }
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,17 +16,17 @@ CONFIG += c++11
 SOURCES += \
     addonesubjectdetail.cpp \
     config/daoconfig.cpp \
+    config/subjectservice.cpp \
     createsubjectwindow.cpp \
     main.cpp \
-    mainwindow.cpp \
-    service/addclassservice.cpp
+    mainwindow.cpp
 
 HEADERS += \
     addonesubjectdetail.h \
     config/daoconfig.h \
+    config/subjectservice.h \
     createsubjectwindow.h \
-    mainwindow.h \
-    service/addclassservice.h
+    mainwindow.h
 
 FORMS += \
     addonesubjectdetail.ui \

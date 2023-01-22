@@ -12,6 +12,7 @@ class DaoConfig
 {
 public:
     DaoConfig();
+    void sqlInit();
 };
 
 #endif // DAOCONFIG_H
