@@ -19,14 +19,16 @@ SOURCES += \
     config/subjectservice.cpp \
     createsubjectwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    pojo/subject.cpp
 
 HEADERS += \
     addonesubjectdetail.h \
     config/daoconfig.h \
     config/subjectservice.h \
     createsubjectwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    pojo/subject.h
 
 FORMS += \
     addonesubjectdetail.ui \

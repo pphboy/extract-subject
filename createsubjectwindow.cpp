@@ -52,6 +52,9 @@ void CreateSubjectWindow::on_addCategory_clicked()
     QString text=  QInputDialog::getText(this, tr("添加分类"),
                                           tr("请输入分类名"), QLineEdit::Normal,
                                           "", &ok,Qt::WindowFlags(),Qt::ImhDate);
+
+    // 在这里传一个 Subject对象过去，这个对象可以当作编辑状态，也可以当作新增的状态
+    // createSubject同时只能主导一个Subject对象
     this->subjectService.addSubject(text);
 
     qDebug() << text <<  text.isEmpty()  << ok << endl;
