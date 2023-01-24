@@ -32,9 +32,15 @@ MainWindow * CreateSubjectWindow::getRealParent()
     return this->realParent;
 }
 
+/**
+ * @brief 添加科目类
+ * @param name
+ * @return
+ */
 bool CreateSubjectWindow::addSubject(QString name)
 {
     this->ui->majorLineEdit->setText(name);
+
     this->subjectService.addSubject(name);
 }
 

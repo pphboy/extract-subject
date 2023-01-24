@@ -13,8 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     // 设置窗口状态
     this->setWindowFlags(Qt::WindowCloseButtonHint);
     this->setFixedSize(QSize(this->width(),this->height()));
-    DaoConfig daoConfig;
-    daoConfig.sqlInit(); // 数据库 初始化
+
+    DaoConfig::get()->sqlInit(); // sql 初始化
 
 }
 

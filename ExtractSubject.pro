@@ -16,6 +16,7 @@ CONFIG += c++11
 SOURCES += \
     addonesubjectdetail.cpp \
     config/daoconfig.cpp \
+    config/esutil.cpp \
     config/subjectservice.cpp \
     createsubjectwindow.cpp \
     main.cpp \
@@ -25,9 +26,11 @@ SOURCES += \
 HEADERS += \
     addonesubjectdetail.h \
     config/daoconfig.h \
+    config/esutil.h \
     config/subjectservice.h \
     createsubjectwindow.h \
     mainwindow.h \
+    pojo/datastruct.h \
     pojo/subject.h
 
 FORMS += \

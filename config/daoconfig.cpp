@@ -6,31 +6,31 @@
 
 DaoConfig::DaoConfig()
 {
-
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("../es.db");
+    db.open(); // 初始化时需要打开
+    qDebug() << "数据库成功打开";
 }
 
 void DaoConfig::sqlInit()
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("../es.db");
-    db.open();
     QString path = QCoreApplication::applicationDirPath();
     qDebug() << path;
 
-    QSqlQuery query;
+    QSqlQuery query(db);
 
     const QString createDatabaseSql = R"(
-                                        /*==============================================================*/
+                                                    /*==============================================================*/
                                         /* Table: s_anwser                                              */
                                         /*==============================================================*/
                                         create table s_anwser
                                         (
-                                           a_id                 int not null,
+                                           a_id                 integer primary key autoincrement,
                                            t_id                 int,
                                            pc_id                int,
                                            a_detail             text,
-                                           update_time          datetime,
-                                           primary key (a_id)
+                                           update_time          datetime
+
                                         );
 
                                         /*==============================================================*/
@@ -38,12 +38,12 @@ void DaoConfig::sqlInit()
                                         /*==============================================================*/
                                         create table s_category
                                         (
-                                           c_id                 int not null,
+                                           c_id                 integer primary key autoincrement,
                                            s_id                 int,
                                            c_name               varchar(255) not null,
                                            create_time          datetime,
-                                           update_time          datetime,
-                                           primary key (c_id)
+                                           update_time          datetime
+
                                         );
 
                                         /*==============================================================*/
@@ -51,11 +51,11 @@ void DaoConfig::sqlInit()
                                         /*==============================================================*/
                                         create table s_paper
                                         (
-                                           p_id                 int not null,
+                                           p_id                 integer primary key autoincrement,
                                            s_id                 int,
                                            p_name               varchar(255),
-                                           create_time          datetime,
-                                           primary key (p_id)
+                                           create_time          datetime
+
                                         );
 
                                         /*==============================================================*/
@@ -63,11 +63,11 @@ void DaoConfig::sqlInit()
                                         /*==============================================================*/
                                         create table s_paper_category
                                         (
-                                           pc_id                int not null,
+                                           pc_id                INTEGER PRIMARY KEY AUTOINCREMENT,
                                            c_id                 int,
                                            p_id                 int,
-                                           pc_status            smallint,
-                                           primary key (pc_id)
+                                           pc_status            smallint
+
                                         );
 
                                         /*==============================================================*/
@@ -75,11 +75,10 @@ void DaoConfig::sqlInit()
                                         /*==============================================================*/
                                         create table s_subject
                                         (
-                                           s_id                 int not null,
+                                           s_id                 INTEGER PRIMARY KEY AUTOINCREMENT,
                                            s_name               varchar(255) not null,
                                            create_time          datetime,
-                                           update_time          datetime,
-                                           primary key (s_id)
+                                           update_time          datetime
                                         );
 
                                         /*==============================================================*/
@@ -87,17 +86,18 @@ void DaoConfig::sqlInit()
                                         /*==============================================================*/
                                         create table s_task
                                         (
-                                           t_id                 int not null,
+                                           t_id                 INTEGER PRIMARY KEY AUTOINCREMENT,
                                            c_id                 int,
                                            t_description        text,
                                            t_content            text,
                                            create_time          datetime,
-                                           update_time          datetime,
-                                           primary key (t_id)
+                                           update_time          datetime
                                         )
+
                                       )";
 
-    for(auto sql: createDatabaseSql){
+    for(auto sql: createDatabaseSql.split(";")){
+//        qDebug() << sql << query.exec(sql);
         query.exec(sql);
     }
 
@@ -105,3 +105,21 @@ void DaoConfig::sqlInit()
 
 
 }
+
+QSqlDatabase DaoConfig::getDB()
+{
+    return db;
+}
+
+// 因为这个static没怎么搞明白，先写到这里
+static DaoConfig *dc = nullptr;
+
+DaoConfig* DaoConfig::get()
+{
+    if(dc == nullptr){
+        dc = new DaoConfig;
+    }
+    qDebug() << "引用一次DaoConfig" << dc ;
+    return dc;
+}
+
