@@ -2,6 +2,8 @@
 #include <ctime>
 #include <QDebug>
 
+// 初始化指针
+CreateSubjectWindow* EsUtil::CreateSubjectWindow = nullptr;
 
 EsUtil::EsUtil()
 {
@@ -18,5 +20,7 @@ QString EsUtil::getCurrentFormatData()
 
     return dateStr;
 }
+
+
 
 

@@ -16,8 +16,15 @@ public:
     void sqlInit();
     static DaoConfig *get(); // 使用单例模式
     QSqlDatabase getDB();
+    QSqlQuery* query();
+    /**
+     * @brief 打开DB
+     */
+    void open();
+    ~DaoConfig();
 private:
     QSqlDatabase db;
+    QSqlQuery *queryPtr = nullptr;
 };
 
 #endif // DAOCONFIG_H

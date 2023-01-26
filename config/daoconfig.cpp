@@ -108,8 +108,29 @@ void DaoConfig::sqlInit()
 
 QSqlDatabase DaoConfig::getDB()
 {
+    // 这里的DB默认是打开的
     return db;
 }
+
+// 查询的接口就是这一个了
+/**
+ * @brief DaoConfig::query
+ * @example 例子: DaoConfig::get().query()->exec("sql");
+ * @return  queryPtr
+ */
+QSqlQuery* DaoConfig::query()
+{
+    if(queryPtr == nullptr){
+        queryPtr = new QSqlQuery(DaoConfig::get()->getDB());
+    }
+    return queryPtr;
+}
+
+void DaoConfig::open()
+{
+    db.open();
+}
+
 
 // 因为这个static没怎么搞明白，先写到这里
 static DaoConfig *dc = nullptr;
@@ -123,3 +144,10 @@ DaoConfig* DaoConfig::get()
     return dc;
 }
 
+
+DaoConfig::~DaoConfig()
+{
+    delete this;
+    // 这里删除了，不知道有没有用
+    delete dc;
+}

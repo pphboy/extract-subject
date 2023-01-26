@@ -39,9 +39,24 @@ MainWindow * CreateSubjectWindow::getRealParent()
  */
 bool CreateSubjectWindow::addSubject(QString name)
 {
-    this->ui->majorLineEdit->setText(name);
+    bool ok = this->subjectService.addSubject(name);
+    // 如果添加成功就设置窗口的标题和  科目Label
+    if(ok){
+        this->ui->majorLineEdit->setText(name);
+        // 设置 科目 和ID
+        this->ui->currentMajorName->setText(tr("科目名: %1  科目ID: %2").arg(subject.getS_name()).arg(subject.getS_id()));
+        this->ui->currentMajorName->show();
+    }
+    return ok;
+}
 
-    this->subjectService.addSubject(name);
+/**
+ * @brief 就直接返回地址
+ * @return
+ */
+Subject *CreateSubjectWindow::getSubject()
+{
+    return &subject;
 }
 
 void CreateSubjectWindow::closeEvent(QCloseEvent *event)
@@ -62,6 +77,7 @@ void CreateSubjectWindow::on_addCategory_clicked()
     // 在这里传一个 Subject对象过去，这个对象可以当作编辑状态，也可以当作新增的状态
     // createSubject同时只能主导一个Subject对象
     this->subjectService.addSubject(text);
+
 
     qDebug() << text <<  text.isEmpty()  << ok << endl;
 }
