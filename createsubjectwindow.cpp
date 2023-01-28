@@ -4,7 +4,9 @@
 #include "qlineedit.h"
 #include "qdebug.h"
 #include "qinputdialog.h"
-#include "addonesubjectdetail.h"
+#include "config/esutil.h"
+#include <QDebug>
+#include <QMessageBox>
 
 CreateSubjectWindow::CreateSubjectWindow(QWidget *parent) :
     QWidget(parent),
@@ -15,6 +17,9 @@ CreateSubjectWindow::CreateSubjectWindow(QWidget *parent) :
     ui->currentMajorName->hide();
     this->setWindowFlags(Qt::WindowCloseButtonHint);
     this->setFixedSize(this->width(),this->height());
+    // 默认刷新一次
+    initCategoryList();
+    initTaskList();
 }
 
 CreateSubjectWindow::~CreateSubjectWindow()
@@ -59,6 +64,87 @@ Subject *CreateSubjectWindow::getSubject()
     return &subject;
 }
 
+/**
+ * @brief CreateSubjectWindow::refreshCategoryList
+ * 刷新分类列表
+ *
+ */
+void CreateSubjectWindow::refreshCategoryList()
+{
+    model->setFilter(tr("s_id=%1").arg(subject.getS_id()));
+//    qDebug() << "Subject Id = " << subject.getS_id();
+    model->select();
+    ui->categoryView->setModel(model);
+}
+
+/**
+ * @brief 初始化分类表
+ */
+void CreateSubjectWindow::initCategoryList()
+{
+    // 刷新成功
+    // 需要拿到分类的数据，重新设置这个categoryView
+    if(model == nullptr) model = new QSqlTableModel(this);
+
+    model->setTable("s_category");
+    // 设置为当前的subject的子分类
+    model->setFilter(tr("s_id=%1").arg(subject.getS_id()));
+    qDebug() << "Subject Id = " << subject.getS_id();
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->select();
+
+    qDebug() << "Model RowCount" << model->rowCount();
+
+    for (int i = model->rowCount(); i >= 0; i--) {
+//        qDebug() << model->data(i);
+    }
+
+//    model->setHeaderData(1, Qt::Horizontal, tr("分类名称"));
+//    model->setHeaderData(2, Qt::Horizontal, tr("创建时间"));
+//    model->setHeaderData(3, Qt::Horizontal, tr("更新时间"));
+//    model->setHeaderData(4,Qt::Horizontal,tr("自定义"));
+
+    ui->categoryView->setModel(model);
+    ui->categoryView->verticalHeader()->hide(); // 隐藏行号
+    ui->categoryView->setColumnHidden(0,true); // 隐藏编号一列
+
+}
+
+void CreateSubjectWindow::refreshTaskList()
+{
+    taskModel->setFilter(tr("s_id=%1").arg(subject.getS_id()));
+//    qDebug() << "Subject Id = " << subject.getS_id();
+    taskModel->select();
+    ui->taskView->setModel(taskModel);
+}
+
+void CreateSubjectWindow::initTaskList()
+{
+    if(taskModel == nullptr) taskModel = new QSqlTableModel(this);
+
+    taskModel->setTable("s_task");
+    // 设置为当前的subject的子分类
+    taskModel->setFilter(tr("s_id=%1").arg(subject.getS_id()));
+    qDebug() << "Subject Id = " << subject.getS_id();
+    taskModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    taskModel->select();
+
+    qDebug() << "Model RowCount" << taskModel->rowCount();
+
+    for (int i = taskModel->rowCount(); i >= 0; i--) {
+//        qDebug() << taskModel->data(i);
+    }
+
+//    taskModel->setHeaderData(1, Qt::Horizontal, tr("分类名称"));
+//    taskModel->setHeaderData(2, Qt::Horizontal, tr("创建时间"));
+//    taskModel->setHeaderData(3, Qt::Horizontal, tr("更新时间"));
+//    taskModel->setHeaderData(4,Qt::Horizontal,tr("自定义"));
+
+    ui->taskView->setModel(taskModel);
+    ui->taskView->verticalHeader()->hide(); // 隐藏行号
+    ui->taskView->setColumnHidden(0,true); // 隐藏编号一列
+}
+
 void CreateSubjectWindow::closeEvent(QCloseEvent *event)
 {
     // 开启主窗口
@@ -66,20 +152,22 @@ void CreateSubjectWindow::closeEvent(QCloseEvent *event)
 }
 
 
-
+/**
+ * @brief CreateSubjectWindow::on_addCategory_clicked
+ */
 void CreateSubjectWindow::on_addCategory_clicked()
 {
     bool ok;
     QString text=  QInputDialog::getText(this, tr("添加分类"),
                                           tr("请输入分类名"), QLineEdit::Normal,
                                           "", &ok,Qt::WindowFlags(),Qt::ImhDate);
-
-    // 在这里传一个 Subject对象过去，这个对象可以当作编辑状态，也可以当作新增的状态
-    // createSubject同时只能主导一个Subject对象
-    this->subjectService.addSubject(text);
-
-
-    qDebug() << text <<  text.isEmpty()  << ok << endl;
+    if(!text.isEmpty()){
+        // 在这里传一个 Subject对象过去，这个对象可以当作编辑状态，也可以当作新增的状态
+        // createSubject同时只能主导一个Subject对象
+        this->subjectService.addCategory(text,subject.getS_id());
+        qDebug() << text <<  text.isEmpty()  << ok << endl;
+    }
+    // 如果text为空就啥也不干
 }
 
 
@@ -91,10 +179,20 @@ void CreateSubjectWindow::on_saveMajor_clicked()
 }
 
 
-void CreateSubjectWindow::on_addSubject_clicked()
-{
-    AddOneSubjectDetail *asd = new AddOneSubjectDetail();
-    asd->show();
-    qDebug() << "添加一个题目" << endl;
-}
 
+void CreateSubjectWindow::on_addTask_clicked()
+{
+    if(asd == nullptr){
+        asd = new AddOneSubjectDetail();
+        EsUtil::AddOneSubjectDetail = asd; // 直接在初始化的时候保存指针，太强了CPP
+    }
+    // 拿到 categoryList的数据，判断一下是否可以打开，如果不能打开，就提示需要添加分类
+    int length = asd->initCategoryList();
+    qDebug() << tr("length = %1").arg(length);
+    if(length < 1){
+        QMessageBox::critical(this, "警示","你还没有添加分类，请先添加分类后再添加题目");
+        return;
+    }
+    qDebug() << "点击了添加题目的窗口" << endl;
+    asd->show();
+}

@@ -11,6 +11,8 @@ public:
     SubjectService();
     bool addSubject(QString name); // 添加科目
     bool addCategory(QString name,int subjectId); // 添加分类
+    bool addSubjectTask(QString title, QString answer,int categoryId);
+    bool addTask(QString t_title,QString questionHtml, QString answerHtml, int categoryId);
 private:
     QSqlQuery *query;
 

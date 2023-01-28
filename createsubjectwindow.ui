@@ -49,17 +49,7 @@
     <string>保存</string>
    </property>
   </widget>
-  <widget class="QListView" name="listView">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>80</y>
-     <width>501</width>
-     <height>241</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="addSubject">
+  <widget class="QPushButton" name="addTask">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -85,16 +75,6 @@
     <string>添加分类</string>
    </property>
   </widget>
-  <widget class="QListView" name="categoriesList">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>80</y>
-     <width>181</width>
-     <height>241</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="currentMajorName">
    <property name="geometry">
     <rect>
@@ -109,6 +89,26 @@
    </property>
    <property name="text">
     <string>科目名：</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="categoryView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>181</width>
+     <height>251</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTableView" name="taskView">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>80</y>
+     <width>511</width>
+     <height>251</height>
+    </rect>
    </property>
   </widget>
  </widget>

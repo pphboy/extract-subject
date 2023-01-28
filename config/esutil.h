@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 
 #include "createsubjectwindow.h"
+#include "addonesubjectdetail.h"
 
 class EsUtil
 {
@@ -14,7 +15,9 @@ public:
     EsUtil();
     static QString getCurrentFormatData();
     static CreateSubjectWindow *CreateSubjectWindow; // 存储其指针在这里方便使用
+    static AddOneSubjectDetail *AddOneSubjectDetail;
 private:
 };
+
 
 #endif // ESUTIL_H

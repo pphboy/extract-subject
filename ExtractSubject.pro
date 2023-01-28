@@ -21,6 +21,7 @@ SOURCES += \
     createsubjectwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    pojo/category.cpp \
     pojo/subject.cpp
 
 HEADERS += \
@@ -30,6 +31,7 @@ HEADERS += \
     config/subjectservice.h \
     createsubjectwindow.h \
     mainwindow.h \
+    pojo/category.h \
     pojo/datastruct.h \
     pojo/subject.h
 
