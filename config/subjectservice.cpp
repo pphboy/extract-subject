@@ -82,13 +82,13 @@ bool SubjectService::addSubjectTask(QString title, QString answer, int categoryI
     return false;
 }
 
-bool SubjectService::addTask(QString t_title, QString questionHtml, QString answerHtml, int categoryId)
+bool SubjectService::addTask(QString t_title, QString questionHtml, QString answerHtml, int categoryId, QString textContent)
 {
 
     // 添加题目到数据库
     QString sql = R"(
-                 INSERT INTO "main"."s_task"("t_id", "c_id", "t_description", "t_content", "create_time", "update_time","t_title","s_id")
-                  VALUES (null, ?, ?, ?, ?, ?, ?, ?);
+                 INSERT INTO "main"."s_task"("t_id", "c_id", "t_description", "t_content", "create_time", "update_time","t_title","s_id","t_answer")
+                  VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?);
                   )";
     query->prepare(sql);
     // 设置 分类 ID
@@ -100,6 +100,7 @@ bool SubjectService::addTask(QString t_title, QString questionHtml, QString answ
     query->bindValue(5,t_title);
     // 设置当前窗口的Subject为此题目的id
     query->bindValue(6,EsUtil::CreateSubjectWindow->getSubject()->getS_id());
+    query->bindValue(7,textContent);
 
     bool ok = query->exec();
 

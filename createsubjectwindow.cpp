@@ -93,20 +93,16 @@ void CreateSubjectWindow::initCategoryList()
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->select();
 
-    qDebug() << "Model RowCount" << model->rowCount();
+    qDebug() << "Category Model RowCount" << model->rowCount();
 
-    for (int i = model->rowCount(); i >= 0; i--) {
-//        qDebug() << model->data(i);
-    }
-
-//    model->setHeaderData(1, Qt::Horizontal, tr("分类名称"));
-//    model->setHeaderData(2, Qt::Horizontal, tr("创建时间"));
-//    model->setHeaderData(3, Qt::Horizontal, tr("更新时间"));
-//    model->setHeaderData(4,Qt::Horizontal,tr("自定义"));
+    model->setHeaderData(2, Qt::Horizontal, tr("分类名称"));
+    model->setHeaderData(3, Qt::Horizontal, tr("创建时间"));
 
     ui->categoryView->setModel(model);
     ui->categoryView->verticalHeader()->hide(); // 隐藏行号
     ui->categoryView->setColumnHidden(0,true); // 隐藏编号一列
+    ui->categoryView->setColumnHidden(1,true); // 隐藏分类编号
+    ui->categoryView->setColumnHidden(4,true); // 隐藏编辑时间
 
 }
 
@@ -135,18 +131,26 @@ void CreateSubjectWindow::initTaskList()
 //        qDebug() << taskModel->data(i);
     }
 
-//    taskModel->setHeaderData(1, Qt::Horizontal, tr("分类名称"));
-//    taskModel->setHeaderData(2, Qt::Horizontal, tr("创建时间"));
-//    taskModel->setHeaderData(3, Qt::Horizontal, tr("更新时间"));
-//    taskModel->setHeaderData(4,Qt::Horizontal,tr("自定义"));
+    taskModel->setHeaderData(3, Qt::Horizontal, tr("题目描述"));
+    taskModel->setHeaderData(4, Qt::Horizontal, tr("答案"));
+    taskModel->setHeaderData(7,Qt::Horizontal,tr("创建时间"));
 
     ui->taskView->setModel(taskModel);
     ui->taskView->verticalHeader()->hide(); // 隐藏行号
     ui->taskView->setColumnHidden(0,true); // 隐藏编号一列
+    ui->taskView->setColumnHidden(1,true); // 隐藏C_ID
+    ui->taskView->setColumnHidden(2,true); // 隐藏S_ID
+    ui->taskView->setColumnHidden(5,true); // 隐藏标题HTML
+    ui->taskView->setColumnHidden(6,true); // 隐藏内容HTML
+    ui->taskView->setColumnHidden(8,true); // 隐藏编辑时间
 }
+
 
 void CreateSubjectWindow::closeEvent(QCloseEvent *event)
 {
+    qDebug() << "Close EVent";
+
+
     // 开启主窗口
     this->realParent->show();
 }

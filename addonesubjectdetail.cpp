@@ -80,7 +80,8 @@ void AddOneSubjectDetail::on_saveButton_clicked()
     bool ok = subjectService.addTask(ui->questionEdit->document()->toRawText(),
                            ui->questionEdit->toHtml(),
                            ui->answerEdit->toHtml(),
-                           ui->categoryBox->currentData().toInt());
+                           ui->categoryBox->currentData().toInt(),
+                                     ui->answerEdit->document()->toRawText()); // 2023年01月30日 加上了 这个答案的简单版
     // 判断是否插入成功
     if(ok){
         // 还需要刷新题目列表

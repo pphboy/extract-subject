@@ -38,7 +38,6 @@ public:
      * @brief 初始化题目列表
      */
     void initTaskList();
-
 protected:
     void closeEvent(QCloseEvent *event);
 

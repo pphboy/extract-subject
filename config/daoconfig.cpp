@@ -88,8 +88,9 @@ void DaoConfig::sqlInit()
                                         (
                                            t_id                 INTEGER PRIMARY KEY AUTOINCREMENT,
                                            c_id                 int,
-                                            s_id int,
+                                           s_id int,
                                            t_title              text,
+                                           t_answer             text,
                                            t_description        text,
                                            t_content            text,
                                            create_time          datetime,
