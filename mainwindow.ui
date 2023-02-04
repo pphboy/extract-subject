@@ -79,6 +79,22 @@
       <height>341</height>
      </rect>
     </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="checkSubjectBtn">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>170</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>查看</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

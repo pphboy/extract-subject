@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "createsubjectwindow.h"
-#include <QSqlTableModel>
 #include "config/daoconfig.h"
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QDebug>
 
 #include "config/esutil.h"
 MainWindow::MainWindow(QWidget *parent)
@@ -19,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowFlags(Qt::WindowCloseButtonHint);
     this->setFixedSize(QSize(this->width(),this->height()));
 
-    QSqlTableModel *model;
     model = new QSqlTableModel(this);
     model->setTable("s_subject");
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -29,14 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
     model->setHeaderData(1, Qt::Horizontal, tr("科目名称"));
     model->setHeaderData(2, Qt::Horizontal, tr("创建时间"));
     model->setHeaderData(3, Qt::Horizontal, tr("更新时间"));
+    model->setHeaderData(4, Qt::Horizontal, tr("编辑"));
 
     ui->tableView->setModel(model);
     ui->tableView->setColumnWidth(2,140);
     ui->tableView->setColumnWidth(3,140);
-    ui->tableView->verticalHeader()->hide(); // 隐藏行号
-//QTableView::horizontalHeader()->hide()//隐藏列头方法
-
-//QTableView::verticalHeader()->hide()//隐藏行号方法
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    //ui->tableView->verticalHeader()->hide(); // 隐藏行号
 
 
 }
@@ -69,3 +68,13 @@ void MainWindow::on_createSubjectList_clicked()
     }
 }
 
+
+void MainWindow::on_checkSubjectBtn_clicked()
+{
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    int subject_id = model->index(index.row(),0).data().toInt();
+    // 0 位是 ID
+    qDebug() << "科目ID: " << subject_id ;
+    // 将数据设置到主subject成员变量中
+
+}

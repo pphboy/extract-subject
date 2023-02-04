@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QSqlTableModel>
 #include <QMainWindow>
 
 
@@ -23,7 +24,10 @@ public:
 private slots:
     void on_createSubjectList_clicked();
 
+    void on_checkSubjectBtn_clicked();
+
 private:
+    QSqlTableModel *model;
     Ui::MainWindow *ui;
     CreateSubjectWindow *csw = nullptr;
 

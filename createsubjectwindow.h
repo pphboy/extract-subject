@@ -57,7 +57,13 @@ private:
     Ui::CreateSubjectWindow *ui;
     MainWindow* realParent = nullptr;
     SubjectService subjectService;
+    /**
+     * @brief 这是分类的model
+     */
     QSqlTableModel *model = nullptr;
+    /**
+     * @brief 题目的model
+     */
     QSqlTableModel *taskModel = nullptr;
 };
 

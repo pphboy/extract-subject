@@ -45,7 +45,7 @@ MainWindow * CreateSubjectWindow::getRealParent()
 bool CreateSubjectWindow::addSubject(QString name)
 {
     bool ok = this->subjectService.addSubject(name);
-    // 如果添加成功就设置窗口的标题和  科目Label
+    // 如果添加成功就设置窗口的标题和科目Label
     if(ok){
         this->ui->majorLineEdit->setText(name);
         // 设置 科目 和ID
@@ -153,6 +153,12 @@ void CreateSubjectWindow::closeEvent(QCloseEvent *event)
 
     // 开启主窗口
     this->realParent->show();
+    // 关注窗口的时候清除列表的数据
+    // 清除题目数据
+    taskModel->clear();
+    // 清除分类数据
+    model->clear();
+
 }
 
 
