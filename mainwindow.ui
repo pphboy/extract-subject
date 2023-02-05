@@ -3,7 +3,7 @@
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="windowModality">
-   <enum>Qt::NonModal</enum>
+   <enum>Qt::ApplicationModal</enum>
   </property>
   <property name="enabled">
    <bool>true</bool>
@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>592</height>
+    <width>620</width>
+    <height>414</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -40,12 +40,21 @@
   <property name="animated">
    <bool>true</bool>
   </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="createSubjectList">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>30</y>
+      <x>0</x>
+      <y>10</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -54,43 +63,58 @@
      <string notr="true">font-size: 14px;</string>
     </property>
     <property name="text">
-     <string>CreateSubjectList</string>
+     <string>创建科目</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>171</width>
+      <x>220</x>
+      <y>20</y>
+      <width>221</width>
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
+    </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;科目列表，双击展开&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;单击选中科目，然后点击查看&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>200</y>
+      <x>0</x>
+      <y>70</y>
       <width>621</width>
-      <height>341</height>
+      <height>351</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="autoScrollMargin">
+     <number>5</number>
     </property>
     <property name="editTriggers">
      <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="gridStyle">
+     <enum>Qt::SolidLine</enum>
     </property>
    </widget>
    <widget class="QPushButton" name="checkSubjectBtn">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>170</y>
-      <width>75</width>
-      <height>23</height>
+      <x>140</x>
+      <y>10</y>
+      <width>71</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
     </property>
     <property name="text">
      <string>查看</string>
@@ -98,16 +122,18 @@
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>659</width>
+     <width>620</width>
      <height>23</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <resources/>
  <connections/>

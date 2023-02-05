@@ -37,6 +37,13 @@ MainWindow * CreateSubjectWindow::getRealParent()
     return this->realParent;
 }
 
+void CreateSubjectWindow::refreshSubjecTitle()
+{
+    // 设置 科目 和ID
+    this->ui->currentMajorName->setText(tr("科目名: %1  科目ID: %2").arg(subject.getS_name()).arg(subject.getS_id()));
+    this->ui->currentMajorName->show();
+}
+
 /**
  * @brief 添加科目类
  * @param name
@@ -48,9 +55,7 @@ bool CreateSubjectWindow::addSubject(QString name)
     // 如果添加成功就设置窗口的标题和科目Label
     if(ok){
         this->ui->majorLineEdit->setText(name);
-        // 设置 科目 和ID
-        this->ui->currentMajorName->setText(tr("科目名: %1  科目ID: %2").arg(subject.getS_name()).arg(subject.getS_id()));
-        this->ui->currentMajorName->show();
+        refreshSubjecTitle();
     }
     return ok;
 }

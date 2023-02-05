@@ -109,3 +109,14 @@ bool SubjectService::addTask(QString t_title, QString questionHtml, QString answ
 
 }
 
+Subject* SubjectService::getSubjectById(int sid)
+{
+    query->prepare("select * from s_subject where s_id = ?");
+    query->bindValue(0,sid);
+    query->exec();
+    query->next();
+    Subject *sb = new Subject(query->value("s_id").toInt(),query->value("s_name").toString());
+    query->clear();
+    return sb;
+}
+

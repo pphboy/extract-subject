@@ -22,6 +22,15 @@ public:
     ~CreateSubjectWindow();
     void setRealParent(MainWindow* p);
     MainWindow* getRealParent();
+    /**
+     * @brief 切换编辑窗口的标题，
+     */
+    void refreshSubjecTitle();
+    /**
+     * @brief 添加科目
+     * @param name
+     * @return
+     */
     bool addSubject(QString name);
     /**
      * @brief 获Subject类型的指针

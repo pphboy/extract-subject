@@ -3,6 +3,7 @@
 
 #include <QSqlTableModel>
 #include <QMainWindow>
+#include "config/subjectservice.h"
 
 
 
@@ -30,6 +31,7 @@ private:
     QSqlTableModel *model;
     Ui::MainWindow *ui;
     CreateSubjectWindow *csw = nullptr;
+    SubjectService subjectService;
 
 };
 #endif // MAINWINDOW_H

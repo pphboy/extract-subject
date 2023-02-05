@@ -12,6 +12,7 @@ class Subject
 {
 public:
     Subject();
+    Subject(int s_id, QString s_name):s_id(s_id),s_name(s_name){};
     int getS_id(){return s_id;};
     void setS_id(int id) { s_id = id;}
     QString getS_name() { return s_name;}

@@ -13,6 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     DaoConfig::get()->sqlInit(); // sql 初始化
+    // 单例套着单例
+    if(EsUtil::CreateSubjectWindow == nullptr){
+        EsUtil::CreateSubjectWindow = new CreateSubjectWindow(); // 初始化一个窗口
+        this->csw = EsUtil::CreateSubjectWindow;
+        this->csw->setRealParent(this);// 设置主窗
+    }
 
     ui->setupUi(this);
     // 设置窗口状态
@@ -36,8 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     //ui->tableView->verticalHeader()->hide(); // 隐藏行号
-
-
 }
 
 MainWindow::~MainWindow()
@@ -52,12 +56,6 @@ void MainWindow::on_createSubjectList_clicked()
     QString text=  QInputDialog::getText(this, tr("添加科目"),
                                           tr("请输入分科目名"), QLineEdit::Normal,
                                           "", &ok,Qt::WindowFlags(),Qt::ImhDate);
-    // 单例
-    if(this->csw==nullptr){
-        this->csw = new CreateSubjectWindow();
-        // 初始化在这里，之前的单例我不去解绝了，但后面的写法肯定是一开始就需要做一个全局变量把这些窗口的指针全部存起来
-         EsUtil::CreateSubjectWindow = this->csw;
-    }
     if(!text.isEmpty()){
         this->csw->addSubject(text);
         this->hide();
@@ -69,12 +67,21 @@ void MainWindow::on_createSubjectList_clicked()
 }
 
 
+/**
+ * @brief MainWindow::on_checkSubjectBtn_clicked \n
+ *  查看按钮
+ */
 void MainWindow::on_checkSubjectBtn_clicked()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
     int subject_id = model->index(index.row(),0).data().toInt();
     // 0 位是 ID
-    qDebug() << "科目ID: " << subject_id ;
-    // 将数据设置到主subject成员变量中
+    Subject *sb = subjectService.getSubjectById(subject_id);
+    qDebug() << "科目ID: " << subject_id  << sb->getS_id() << sb->getS_name();
+    this->csw->getSubject()->setS_id(sb->getS_id());
+    this->csw->getSubject()->setS_name(sb->getS_name());
+    this->csw->refreshSubjecTitle(); // 更新科目标题
 
+    this->csw->show();
+    this->hide();
 }

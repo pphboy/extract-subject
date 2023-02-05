@@ -8,6 +8,7 @@
 #include "createsubjectwindow.h"
 #include "addonesubjectdetail.h"
 
+
 class EsUtil
 {
     static QSqlDatabase db;

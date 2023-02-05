@@ -4,6 +4,7 @@
 #include <QSqlQuery>
 #include <QString>
 #include "daoconfig.h"
+#include "pojo/subject.h"
 
 class SubjectService
 {
@@ -13,6 +14,7 @@ public:
     bool addCategory(QString name,int subjectId); // 添加分类
     bool addSubjectTask(QString title, QString answer,int categoryId);
     bool addTask(QString t_title,QString questionHtml, QString answerHtml, int categoryId, QString textContent);
+    Subject * getSubjectById(int sid);
 private:
     QSqlQuery *query;
 
