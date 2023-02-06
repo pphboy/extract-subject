@@ -5,6 +5,7 @@
 // 初始化指针
 AddOneSubjectDetail* EsUtil::AddOneSubjectDetail = nullptr;
 CreateSubjectWindow* EsUtil::CreateSubjectWindow = nullptr;
+MainWindow* EsUtil::MainWindow = nullptr;
 
 EsUtil::EsUtil()
 {

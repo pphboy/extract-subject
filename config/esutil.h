@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 
 #include "createsubjectwindow.h"
+#include "mainwindow.h"
 #include "addonesubjectdetail.h"
 
 
@@ -17,6 +18,7 @@ public:
     static QString getCurrentFormatData();
     static CreateSubjectWindow *CreateSubjectWindow; // 存储其指针在这里方便使用
     static AddOneSubjectDetail *AddOneSubjectDetail;
+    static MainWindow *MainWindow;
 private:
 };
 

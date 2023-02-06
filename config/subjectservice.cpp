@@ -109,6 +109,18 @@ bool SubjectService::addTask(QString t_title, QString questionHtml, QString answ
 
 }
 
+bool SubjectService::updateSubjectTite(int s_id, QString s_name)
+{
+    QString sql = "update s_subject set s_name = ? where s_id = ?";
+    query->prepare(sql);
+    query->bindValue(0,s_name);
+    query->bindValue(1,s_id);
+    bool ok = query->exec();
+    query->clear();
+    return ok;
+}
+
+
 Subject* SubjectService::getSubjectById(int sid)
 {
     query->prepare("select * from s_subject where s_id = ?");

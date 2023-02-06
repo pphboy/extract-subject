@@ -14,6 +14,7 @@ public:
     bool addCategory(QString name,int subjectId); // 添加分类
     bool addSubjectTask(QString title, QString answer,int categoryId);
     bool addTask(QString t_title,QString questionHtml, QString answerHtml, int categoryId, QString textContent);
+    bool updateSubjectTite(int s_id, QString s_name);
     Subject * getSubjectById(int sid);
 private:
     QSqlQuery *query;

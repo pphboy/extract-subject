@@ -56,6 +56,8 @@ private slots:
 
     void on_addTask_clicked();
 
+    void on_majorLineEdit_returnPressed();
+
 private:
     /**
      * @brief 创建题目的窗口

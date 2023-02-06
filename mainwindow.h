@@ -21,6 +21,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    /**
+     * @brief refreshSubjectList
+     * 刷新科目列表
+     */
+    void refreshSubjectList();
 
 private slots:
     void on_createSubjectList_clicked();

@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     // 单例套着单例
     if(EsUtil::CreateSubjectWindow == nullptr){
         EsUtil::CreateSubjectWindow = new CreateSubjectWindow(); // 初始化一个窗口
+        EsUtil::MainWindow = this; // 把主窗口的指针拿来
         this->csw = EsUtil::CreateSubjectWindow;
         this->csw->setRealParent(this);// 设置主窗
     }
@@ -47,6 +48,11 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::refreshSubjectList()
+{
+    model->select();
 }
 
 
@@ -81,6 +87,9 @@ void MainWindow::on_checkSubjectBtn_clicked()
     this->csw->getSubject()->setS_id(sb->getS_id());
     this->csw->getSubject()->setS_name(sb->getS_name());
     this->csw->refreshSubjecTitle(); // 更新科目标题
+    // 更新分类列表，更新题目列表
+    this->csw->refreshCategoryList();
+    this->csw->refreshTaskList();
 
     this->csw->show();
     this->hide();

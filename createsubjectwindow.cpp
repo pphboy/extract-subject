@@ -20,7 +20,15 @@ CreateSubjectWindow::CreateSubjectWindow(QWidget *parent) :
     // 默认刷新一次
     initCategoryList();
     initTaskList();
+
+
+    ui->categoryView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->taskView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->taskView->setSelectionMode(QAbstractItemView::SingleSelection);
+
 }
+
 
 CreateSubjectWindow::~CreateSubjectWindow()
 {
@@ -42,6 +50,7 @@ void CreateSubjectWindow::refreshSubjecTitle()
     // 设置 科目 和ID
     this->ui->currentMajorName->setText(tr("科目名: %1  科目ID: %2").arg(subject.getS_name()).arg(subject.getS_id()));
     this->ui->currentMajorName->show();
+    this->ui->majorLineEdit->setText(subject.getS_name());// 更新编辑框的标题
 }
 
 /**
@@ -54,8 +63,9 @@ bool CreateSubjectWindow::addSubject(QString name)
     bool ok = this->subjectService.addSubject(name);
     // 如果添加成功就设置窗口的标题和科目Label
     if(ok){
-        this->ui->majorLineEdit->setText(name);
         refreshSubjecTitle();
+        refreshTaskList();
+        refreshCategoryList();
     }
     return ok;
 }
@@ -77,9 +87,11 @@ Subject *CreateSubjectWindow::getSubject()
 void CreateSubjectWindow::refreshCategoryList()
 {
     model->setFilter(tr("s_id=%1").arg(subject.getS_id()));
-//    qDebug() << "Subject Id = " << subject.getS_id();
-    model->select();
-    ui->categoryView->setModel(model);
+}
+
+void CreateSubjectWindow::refreshTaskList()
+{
+    taskModel->setFilter(tr("s_id=%1").arg(subject.getS_id()));
 }
 
 /**
@@ -111,13 +123,6 @@ void CreateSubjectWindow::initCategoryList()
 
 }
 
-void CreateSubjectWindow::refreshTaskList()
-{
-    taskModel->setFilter(tr("s_id=%1").arg(subject.getS_id()));
-//    qDebug() << "Subject Id = " << subject.getS_id();
-    taskModel->select();
-    ui->taskView->setModel(taskModel);
-}
 
 void CreateSubjectWindow::initTaskList()
 {
@@ -160,9 +165,11 @@ void CreateSubjectWindow::closeEvent(QCloseEvent *event)
     this->realParent->show();
     // 关注窗口的时候清除列表的数据
     // 清除题目数据
-    taskModel->clear();
+    taskModel->removeRows(0,taskModel->rowCount());
     // 清除分类数据
-    model->clear();
+    model->removeRows(0,model->rowCount());
+    // 更新父窗口的列表
+    EsUtil::MainWindow->refreshSubjectList();
 
 }
 
@@ -188,11 +195,18 @@ void CreateSubjectWindow::on_addCategory_clicked()
 
 void CreateSubjectWindow::on_saveMajor_clicked()
 {
-    qDebug() << ui->majorLineEdit->text();
-    ui->currentMajorName->setText(QString("科目名: ").append(ui->majorLineEdit->text()));
-    ui->currentMajorName->show();
+    QString s_name = ui->majorLineEdit->text().remove(QRegExp("\\s"));
+    qDebug() << tr("change s_name=%1").arg(s_name);
+    subjectService.updateSubjectTite(subject.getS_id(),s_name);
+    subject.setS_name(s_name);
+    this->ui->currentMajorName->setText(tr("科目名: %1  科目ID: %2").arg(subject.getS_name()).arg(subject.getS_id()));
 }
 
+void CreateSubjectWindow::on_majorLineEdit_returnPressed()
+{
+    // 直接调用
+    on_saveMajor_clicked();
+}
 
 
 void CreateSubjectWindow::on_addTask_clicked()
@@ -211,3 +225,4 @@ void CreateSubjectWindow::on_addTask_clicked()
     qDebug() << "点击了添加题目的窗口" << endl;
     asd->show();
 }
+

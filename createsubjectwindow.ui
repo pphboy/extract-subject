@@ -80,12 +80,12 @@
     <rect>
      <x>280</x>
      <y>20</y>
-     <width>391</width>
+     <width>431</width>
      <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font-size: 25px;</string>
+    <string notr="true">font-size: 15px;</string>
    </property>
    <property name="text">
     <string>科目名：</string>
@@ -100,6 +100,9 @@
      <height>251</height>
     </rect>
    </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
   </widget>
   <widget class="QTableView" name="taskView">
    <property name="geometry">
@@ -109,6 +112,9 @@
      <width>511</width>
      <height>251</height>
     </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
    </property>
   </widget>
  </widget>
