@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSqlQuery>
 #include "pojo/category.h"
+#include "pojo/task.h"
 #include "config/subjectservice.h"
 
 namespace Ui {
@@ -19,12 +20,14 @@ public:
     ~AddOneSubjectDetail();
     int initCategoryList();
     virtual void showEvent(QShowEvent *event);
+    void updateTaskDoc(Task *task);
 
 private slots:
 
     void on_saveButton_clicked();
 
 private:
+    Task task;
     Ui::AddOneSubjectDetail *ui;
     QSqlQuery *query;
     QVector<Category*> cateList;

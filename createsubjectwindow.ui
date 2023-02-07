@@ -52,7 +52,7 @@
   <widget class="QPushButton" name="addTask">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>270</x>
      <y>40</y>
      <width>75</width>
      <height>23</height>
@@ -65,7 +65,7 @@
   <widget class="QPushButton" name="addCategory">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>10</x>
      <y>40</y>
      <width>75</width>
      <height>23</height>
@@ -79,7 +79,7 @@
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>20</y>
+     <y>0</y>
      <width>431</width>
      <height>31</height>
     </rect>
@@ -95,9 +95,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>80</y>
-     <width>181</width>
-     <height>251</height>
+     <y>70</y>
+     <width>241</width>
+     <height>261</height>
     </rect>
    </property>
    <property name="editTriggers">
@@ -107,14 +107,66 @@
   <widget class="QTableView" name="taskView">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>80</y>
-     <width>511</width>
-     <height>251</height>
+     <x>260</x>
+     <y>70</y>
+     <width>451</width>
+     <height>261</height>
     </rect>
    </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="delCategoryBtn">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>40</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>删除分类</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deleteTaskBtn">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>40</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>删除题目</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="modifyCategoryBtn">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>40</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>编辑分类</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="modifyTaskBtn">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>40</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>编辑题目</string>
    </property>
   </widget>
  </widget>

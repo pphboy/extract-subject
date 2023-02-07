@@ -58,6 +58,23 @@ void AddOneSubjectDetail::showEvent(QShowEvent *event)
     initCategoryList();
 }
 
+void AddOneSubjectDetail::updateTaskDoc(Task *t)
+{
+    task.setT_id(t->getT_id());
+    task.setT_content(t->getT_content());
+    task.setT_description(t->getT_description());
+    // 更新组件内的数据
+    ui->questionEdit->setHtml(task.getT_content());
+    ui->answerEdit->setHtml(task.getT_description());
+    // 按理来说还需要复现这个 分类的选择
+    qDebug() << "编辑 t_id = " << t->getT_id() << " c_id = " << t->getC_id();
+
+    // 下拉菜单应当选择 该题目原本的分类
+    int index = ui->categoryBox->findData(QVariant(t->getC_id()));
+    qDebug()  << "设置Index = " << index;
+    ui->categoryBox->setCurrentIndex(index);
+}
+
 /**
  * @brief AddOneSubjectDetail::on_saveButton_clicked
  */
@@ -72,29 +89,45 @@ void AddOneSubjectDetail::on_saveButton_clicked()
         QMessageBox::critical(this,"警示","请选择分类");
         return;
     }
-    if(ui->questionEdit->document()->isEmpty()  && ui->answerEdit->document()->isEmpty()){
+
+    if(ui->questionEdit->document()->isEmpty() || ui->answerEdit->document()->isEmpty()){
         QMessageBox::critical(this,"警示","请输入正确的题目和答案");
         return;
     }
 
-    bool ok = subjectService.addTask(ui->questionEdit->document()->toRawText(),
-                           ui->questionEdit->toHtml(),
-                           ui->answerEdit->toHtml(),
-                           ui->categoryBox->currentData().toInt(),
-                                     ui->answerEdit->document()->toRawText()); // 2023年01月30日 加上了 这个答案的简单版
+    // 获取框框的数据
+
+    task.setC_id(ui->categoryBox->currentData().toInt());
+
+    task.setT_title(ui->questionEdit->document()->toRawText());
+    task.setT_content(ui->answerEdit->toHtml());
+    task.setT_answer(ui->answerEdit->document()->toRawText());
+    task.setT_description(ui->questionEdit->toHtml()); // description 是描述,也就是题目
+
+    // t_id = -1 时为新增 ， 为其他值时是编辑
+    bool ok;
+    if(task.getT_id() == -1){
+        ok = subjectService.addTask(&task); // 2023年01月30日 加上了 这个答案的简单版
+    } else {
+        // 编辑数据
+        ok = subjectService.updateTaskById(&task);
+    }
+
     // 判断是否插入成功
     if(ok){
         // 还需要刷新题目列表
-        QMessageBox::information(this,"成功","添加题目成功");
+        QMessageBox::information(this,"成功",tr("%1题目成功").arg(task.getT_id() == -1 ? "添加":"编辑"));
         // 刷新题目列表
         EsUtil::CreateSubjectWindow->refreshTaskList();
         // 清除数据
         ui->questionEdit->clear();
         ui->answerEdit->clear();
         ui->categoryBox->clear();
+
+        task.setT_id(-1);
         // 隐藏子窗口，打开父窗口
         this->hide();
     } else {
-        QMessageBox::critical(this,"错误","添加题目失败");
+        QMessageBox::critical(this,"错误",tr("%1题目失败").arg(task.getT_id() == -1 ? "添加":"编辑"));
     }
 }

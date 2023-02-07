@@ -80,6 +80,10 @@ void MainWindow::on_createSubjectList_clicked()
 void MainWindow::on_checkSubjectBtn_clicked()
 {
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    if(index.row() == -1){
+        QMessageBox::critical(this,"失败","请选择科目");
+        return;
+    }
     int subject_id = model->index(index.row(),0).data().toInt();
     // 0 位是 ID
     Subject *sb = subjectService.getSubjectById(subject_id);

@@ -7,11 +7,17 @@
 #include "config/esutil.h"
 #include <QDebug>
 #include <QMessageBox>
+#include "pojo/task.h"
 
 CreateSubjectWindow::CreateSubjectWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CreateSubjectWindow)
 {
+    if(asd == nullptr){
+        asd = new AddOneSubjectDetail();
+        EsUtil::AddOneSubjectDetail = asd; // 直接在初始化的时候保存指针，太强了CPP
+    }
+
     qDebug() << parent << endl;
     ui->setupUi(this);
     ui->currentMajorName->hide();
@@ -183,6 +189,7 @@ void CreateSubjectWindow::on_addCategory_clicked()
     QString text=  QInputDialog::getText(this, tr("添加分类"),
                                           tr("请输入分类名"), QLineEdit::Normal,
                                           "", &ok,Qt::WindowFlags(),Qt::ImhDate);
+    text.remove(QRegExp("\\s")); // 除去空格
     if(!text.isEmpty()){
         // 在这里传一个 Subject对象过去，这个对象可以当作编辑状态，也可以当作新增的状态
         // createSubject同时只能主导一个Subject对象
@@ -211,10 +218,6 @@ void CreateSubjectWindow::on_majorLineEdit_returnPressed()
 
 void CreateSubjectWindow::on_addTask_clicked()
 {
-    if(asd == nullptr){
-        asd = new AddOneSubjectDetail();
-        EsUtil::AddOneSubjectDetail = asd; // 直接在初始化的时候保存指针，太强了CPP
-    }
     // 拿到 categoryList的数据，判断一下是否可以打开，如果不能打开，就提示需要添加分类
     int length = asd->initCategoryList();
     qDebug() << tr("length = %1").arg(length);
@@ -226,3 +229,90 @@ void CreateSubjectWindow::on_addTask_clicked()
     asd->show();
 }
 
+
+void CreateSubjectWindow::on_delCategoryBtn_clicked()
+{
+    QModelIndex qmi = ui->categoryView->selectionModel()->currentIndex();
+    if(qmi.row() == -1){
+        QMessageBox::critical(this,"失败","请选择分类!");
+        return;
+    }
+    // 获取ID直接删除
+    int categoryId = model->index(qmi.row(),0).data().toInt();
+    // 直接把0和1转成bool值
+    bool ok = ! QMessageBox::information(this,"提示","删除分类会连同题目一起删除，是否确认删除？","确认","取消");
+//    qDebug() << "a =" << ok;
+    if(ok){
+        subjectService.deleteCagegoryById(categoryId);
+        refreshTaskList();
+        refreshCategoryList();
+        QMessageBox::information(this,"成功","删除分类和题目数据成功!");
+    }
+}
+
+void CreateSubjectWindow::on_deleteTaskBtn_clicked()
+{
+    QModelIndex qmi = ui->taskView->selectionModel()->currentIndex();
+    if(qmi.row() == -1){
+        QMessageBox::critical(this,"失败","请选择题目!");
+        return;
+    }
+    // 获取ID直接删除
+    int taskId= taskModel->index(qmi.row(),0).data().toInt();
+    // 直接把0和1转成bool值
+    bool ok = ! QMessageBox::information(this,"提示","删除题目后将无法恢复，确认删除？","确认","取消");
+//    qDebug() << "a =" << ok;
+    if(ok){
+        subjectService.deleteTaskById(taskId);
+        refreshTaskList();
+        QMessageBox::information(this,"成功","删除题目成功!");
+    }
+}
+
+/**
+ * @brief CreateSubjectWindow::on_modifyCategoryBtn_clicked
+ * 修改分类
+ */
+void CreateSubjectWindow::on_modifyCategoryBtn_clicked()
+{
+    QModelIndex qmi = ui->categoryView->selectionModel()->currentIndex();
+    if(qmi.row() == -1){
+        QMessageBox::critical(this,"失败","请选择分类!");
+        return;
+    }
+    int cid = model->index(qmi.row(),0).data().toInt();
+    QString cname = model->index(qmi.row(),2).data().toString();
+
+    bool ok;
+    QString text=  QInputDialog::getText(this, tr("修改分类"),
+                                          tr("编辑下列文本即可修改分类名"), QLineEdit::Normal,
+                                          cname, &ok,Qt::WindowFlags(),Qt::ImhDate);
+    text.remove(QRegExp("\\s")); // 除去空格
+    if(!text.isEmpty()){
+        // text才是修改后的分类名
+        qDebug() << subjectService.updateCategoryById(cid,text);
+        refreshCategoryList();
+    }else {
+        QMessageBox::critical(this,"警告","分类名不能为空，需要编辑请重新填写");
+    }
+}
+
+void CreateSubjectWindow::on_modifyTaskBtn_clicked()
+{
+    QModelIndex qmi = ui->taskView->selectionModel()->currentIndex();
+    if(qmi.row() == -1){
+        QMessageBox::critical(this,"失败","请选择题目!");
+        return;
+    }
+    // 获取ID直接删除
+    int taskId= taskModel->index(qmi.row(),0).data().toInt();
+    int categoryId= taskModel->index(qmi.row(),1).data().toInt();
+    QString questionHtml = taskModel->index(qmi.row(),5).data().toString();
+    QString answerHtml= taskModel->index(qmi.row(),6).data().toString();
+
+    Task* tmp= new Task(taskId,questionHtml,answerHtml);
+    tmp->setC_id(categoryId); // 需要 设置分类的ID，以便初始窗口的时候直接选择这个分类
+    this->asd->show();
+    // 更新一定要在showEvent之后，不然设置数据后又重置了
+    this->asd->updateTaskDoc(tmp);
+}

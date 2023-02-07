@@ -22,7 +22,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     pojo/category.cpp \
-    pojo/subject.cpp
+    pojo/subject.cpp \
+    pojo/task.cpp
 
 HEADERS += \
     addonesubjectdetail.h \
@@ -33,7 +34,8 @@ HEADERS += \
     mainwindow.h \
     pojo/category.h \
     pojo/datastruct.h \
-    pojo/subject.h
+    pojo/subject.h \
+    pojo/task.h
 
 FORMS += \
     addonesubjectdetail.ui \

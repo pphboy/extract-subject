@@ -82,7 +82,7 @@ bool SubjectService::addSubjectTask(QString title, QString answer, int categoryI
     return false;
 }
 
-bool SubjectService::addTask(QString t_title, QString questionHtml, QString answerHtml, int categoryId, QString textContent)
+bool SubjectService::addTask(Task *task)
 {
 
     // 添加题目到数据库
@@ -92,18 +92,16 @@ bool SubjectService::addTask(QString t_title, QString questionHtml, QString answ
                   )";
     query->prepare(sql);
     // 设置 分类 ID
-    query->bindValue(0,categoryId);
-    query->bindValue(1,questionHtml);
-    query->bindValue(2,answerHtml);
+    query->bindValue(0,task->getC_id());
+    query->bindValue(1,task->getT_description());
+    query->bindValue(2,task->getT_content());
     query->bindValue(3,EsUtil::getCurrentFormatData());
     query->bindValue(4,EsUtil::getCurrentFormatData());
-    query->bindValue(5,t_title);
+    query->bindValue(5,task->getT_title());
     // 设置当前窗口的Subject为此题目的id
     query->bindValue(6,EsUtil::CreateSubjectWindow->getSubject()->getS_id());
-    query->bindValue(7,textContent);
-
+    query->bindValue(7,task->getT_answer());
     bool ok = query->exec();
-
     query->clear();
     return ok;
 
@@ -130,5 +128,66 @@ Subject* SubjectService::getSubjectById(int sid)
     Subject *sb = new Subject(query->value("s_id").toInt(),query->value("s_name").toString());
     query->clear();
     return sb;
+}
+
+Category *SubjectService::getCategoryById(int cid)
+{
+    query->prepare("select * from s_category where c_id = ?");
+    query->bindValue(0,cid);
+    query->exec();
+    query->next();
+    Category *cg = new Category(query->value("c_id").toInt(),query->value("c_name").toString());
+    query->clear();
+    return cg;
+}
+
+// 因为这里有字段类型限制，所以可以直接拼接到字符串，我不是把字符串直接拼接到sql里的
+
+bool SubjectService::deleteCagegoryById(int cid)
+{
+    // 删除分类
+    bool ok = query->exec(QString("delete from s_category where c_id = %1").arg(cid));
+    // 删除题目
+    ok &= query->exec(QString("delete from s_task where c_id = %1").arg(cid));
+    query->clear();
+    return ok;
+}
+
+bool SubjectService::deleteTaskById(int tid)
+{
+    // 删除题目
+    bool ok = query->exec(QString("delete from s_task where t_id = %1").arg(tid));
+    query->clear();
+    return ok;
+}
+
+bool SubjectService::updateCategoryById(int cid, QString cname)
+{
+    query->prepare("update s_category set c_name = ? , update_time = ? where c_id = ?");
+    query->bindValue(0,cname);
+    query->bindValue(1,EsUtil::getCurrentFormatData());
+    query->bindValue(2,cid);
+    bool ok = query->exec();
+    query->clear();
+    return ok;
+}
+
+bool SubjectService::updateTaskById(Task *task)
+{
+    QString sql = R"(
+    UPDATE "main"."s_task" SET "c_id" = ?,  "t_title" = ? , "t_answer" = ?, "t_description" = ?, "t_content" = ?,
+                   "update_time" = ? WHERE "t_id" = ?;
+                  )";
+    query->prepare(sql);
+    query->bindValue(0,task->getC_id());
+    query->bindValue(1,task->getT_title());
+    query->bindValue(2,task->getT_answer());
+    query->bindValue(3,task->getT_description());
+    query->bindValue(4,task->getT_content());
+    query->bindValue(5, EsUtil::getCurrentFormatData());
+    query->bindValue(6,task->getT_id());
+    bool ok = query->exec();
+    query->clear();
+    return ok;
 }
 

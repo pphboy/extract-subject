@@ -58,6 +58,14 @@ private slots:
 
     void on_majorLineEdit_returnPressed();
 
+    void on_delCategoryBtn_clicked();
+
+    void on_deleteTaskBtn_clicked();
+
+    void on_modifyCategoryBtn_clicked();
+
+    void on_modifyTaskBtn_clicked();
+
 private:
     /**
      * @brief 创建题目的窗口
