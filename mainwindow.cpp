@@ -98,3 +98,57 @@ void MainWindow::on_checkSubjectBtn_clicked()
     this->csw->show();
     this->hide();
 }
+
+void MainWindow::on_deleteSubjectBtn_clicked()
+{
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    if(index.row() == -1){
+        QMessageBox::critical(this,"失败","请选择科目");
+        return;
+    }
+    int subject_id = model->index(index.row(),0).data().toInt();
+    QString sname = model->index(index.row(),1).data().toString();
+
+    bool ok;
+    QString text=  QInputDialog::getText(this, tr("警告"),
+                                          tr("删除数据后将不可恢复! \n删除请输入: %1").arg(sname), QLineEdit::Normal,
+                                          "", &ok,Qt::WindowFlags(),Qt::ImhDate);
+    if(text.compare(sname) == 0){
+        subjectService.deleteSubjectById(subject_id);
+        QMessageBox::information(this,"成功","删除题目成功!");
+        refreshSubjectList();
+    }else {
+        QMessageBox::information(this,"真是一个名称的决定","您做了一个明智的决定，\n因为数据删除了就不可逆，\n我懒得写了");
+    }
+
+}
+
+void MainWindow::on_modifySubjectBtn_clicked()
+{
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    if(index.row() == -1){
+        QMessageBox::critical(this,"失败","请选择科目");
+        return;
+    }
+    int subject_id = model->index(index.row(),0).data().toInt();
+    QString sname = model->index(index.row(),1).data().toString();
+
+    bool ok;
+    QString text=  QInputDialog::getText(this, tr("修改科目名"),
+                                          tr("请修改如下科目名"), QLineEdit::Normal,
+                                          sname, &ok,Qt::WindowFlags(),Qt::ImhDate);
+
+    text.remove(QRegExp("\\s")); // 去除空格
+    if(text.isEmpty()){
+        QMessageBox::critical(this,"警告","科目名不能为空或空格");
+    } else {
+        // 反正都写了，可以重用
+        ok = subjectService.updateSubjectTite(subject_id,text);
+        if(ok){
+            refreshSubjectList();
+            QMessageBox::information(this,"成功","更新数据列表成功了");
+        } else {
+            QMessageBox::critical(this,"警告","懒得修,\n可能出BUG了,\n我相信我自己不会出现捏。");
+        }
+    }
+}

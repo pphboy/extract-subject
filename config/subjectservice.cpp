@@ -191,3 +191,23 @@ bool SubjectService::updateTaskById(Task *task)
     return ok;
 }
 
+bool SubjectService::deleteSubjectById(int sid)
+{
+    bool ok = query->exec(QString("delete from s_subject where s_id = %1").arg(sid));
+    ok &= query->exec(QString("delete from s_category where s_id = %1").arg(sid));
+    // 删除题目
+    ok &= query->exec(QString("delete from s_task where s_id = %1").arg(sid));
+    query->clear();
+    return ok;
+}
+
+bool SubjectService::updateSubjectById(Subject *subject)
+{
+    query->prepare("update s_subject set s_name = ? where s_id = ?");
+    query->bindValue(0,subject->getS_name());
+    query->bindValue(1,subject->getS_id());
+    bool ok = query->exec();
+    query->clear();
+    return ok;
+}
+

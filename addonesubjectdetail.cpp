@@ -56,10 +56,24 @@ void AddOneSubjectDetail::showEvent(QShowEvent *event)
 {
     qDebug() << "刷新 Category 列表 ";
     initCategoryList();
+    this->setWindowTitle("添加题目");
 }
 
+void AddOneSubjectDetail::closeEvent(QCloseEvent *event)
+{
+    ui->questionEdit->clear();
+    ui->answerEdit->clear();
+    task.setT_id(-1);
+    task.setC_id(-1);
+}
+
+/**
+ * @brief AddOneSubjectDetail::updateTaskDoc 总是在showEvent后执行，或者不执行
+ * @param t
+ */
 void AddOneSubjectDetail::updateTaskDoc(Task *t)
 {
+    this->setWindowTitle("编辑题目");
     task.setT_id(t->getT_id());
     task.setT_content(t->getT_content());
     task.setT_description(t->getT_description());

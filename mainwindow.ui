@@ -69,9 +69,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>290</x>
       <y>20</y>
-      <width>221</width>
+      <width>181</width>
       <height>21</height>
      </rect>
     </property>
@@ -120,6 +120,52 @@
      <string>查看</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="deleteSubjectBtn">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>10</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="whatsThis">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;没事不要点，不要无聊。&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;
+color: white;
+background: red;</string>
+    </property>
+    <property name="text">
+     <string>删除</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="modifySubjectBtn">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>10</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
+    </property>
+    <property name="text">
+     <string>编辑</string>
+    </property>
+   </widget>
+   <zorder>deleteSubjectBtn</zorder>
+   <zorder>createSubjectList</zorder>
+   <zorder>label</zorder>
+   <zorder>tableView</zorder>
+   <zorder>checkSubjectBtn</zorder>
+   <zorder>modifySubjectBtn</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="enabled">

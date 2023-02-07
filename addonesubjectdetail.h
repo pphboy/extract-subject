@@ -20,6 +20,7 @@ public:
     ~AddOneSubjectDetail();
     int initCategoryList();
     virtual void showEvent(QShowEvent *event);
+    virtual void closeEvent(QCloseEvent *event);
     void updateTaskDoc(Task *task);
 
 private slots:

@@ -32,6 +32,10 @@ private slots:
 
     void on_checkSubjectBtn_clicked();
 
+    void on_deleteSubjectBtn_clicked();
+
+    void on_modifySubjectBtn_clicked();
+
 private:
     QSqlTableModel *model;
     Ui::MainWindow *ui;

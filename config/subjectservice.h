@@ -24,6 +24,8 @@ public:
     bool deleteTaskById(int tid);
     bool updateCategoryById(int cid, QString cname);
     bool updateTaskById(Task* task);
+    bool deleteSubjectById(int sid);
+    bool updateSubjectById(Subject *subject);
 private:
     QSqlQuery *query;
 
