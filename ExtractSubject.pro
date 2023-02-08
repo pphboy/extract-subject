@@ -15,6 +15,7 @@ CONFIG += c++11
 
 SOURCES += \
     addonesubjectdetail.cpp \
+    component/deletebutton.cpp \
     component/numberlineedit.cpp \
     config/daoconfig.cpp \
     config/esutil.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 
 HEADERS += \
     addonesubjectdetail.h \
+    component/deletebutton.h \
     component/numberlineedit.h \
     config/daoconfig.h \
     config/esutil.h \

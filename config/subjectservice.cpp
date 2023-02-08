@@ -298,3 +298,40 @@ bool SubjectService::addSPaperAnswer(SAnswer *answer)
     return ok;
 }
 
+QVector<SPaper *> SubjectService::getSPaperList()
+{
+    QVector<SPaper*> plist;
+
+    query->exec("select * from s_paper");
+    while(query->next()){
+        plist.push_back(new SPaper(query->value("s_id").toInt(),query->value("p_id").toInt()
+                                   ,query->value("p_name").toString(),query->value("create_time").toString()));
+    }
+    query->clear();
+    for(auto a: plist){
+        qDebug() << a->getSid() << a->getPid();
+        a->setSubject(this->getSubjectById(a->getSid()));
+    }
+    return plist;
+}
+
+bool SubjectService::deleteSPaperById(int pid)
+{
+    QVector<int> pclist;
+    bool ok = query->exec(QString("select * from s_paper_category where p_id = %1").arg(pid));
+    while(query->next()){
+        pclist.push_back(query->value("pc_id").toInt());
+    }
+    // 删除题目
+    query->clear();
+    for(auto a:pclist){
+        ok &= query->exec(QString("delete from s_answer where pc_id = %1").arg(a));
+    }
+    // 删除题目分类
+    ok &=query->exec(QString("delete from s_paper_category where p_id = %1").arg(pid));
+    // 删除试卷
+    ok &=query->exec(QString("delete from s_paper where p_id = %1").arg(pid));
+    query->clear();
+    return ok;
+}
+

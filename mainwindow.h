@@ -27,6 +27,15 @@ public:
      * 刷新科目列表
      */
     void refreshSubjectList();
+    /**
+     * @brief initPaperWidget 初始化PaperWidget表结构
+     */
+    void initPaperWidget();
+    /**
+     * @brief refreshPaperWidget 刷新PaperWidget数据
+     */
+    void refreshPaperWidget();
+    virtual void showEvent(QShowEvent *event);
 
 private slots:
     void on_createSubjectList_clicked();
@@ -42,9 +51,12 @@ private slots:
 private:
     QSqlTableModel *model;
     Ui::MainWindow *ui;
+    QVector<SPaper*> plist;
     CreateSubjectWindow *csw = nullptr;
     ExtractPaper *ep = nullptr;
     SubjectService subjectService;
 
 };
+
+
 #endif // MAINWINDOW_H

@@ -5,6 +5,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QDebug>
+#include "component/deletebutton.h"
 
 #include "config/esutil.h"
 MainWindow::MainWindow(QWidget *parent)
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
         EsUtil::CreateSubjectWindow = new CreateSubjectWindow(); // 初始化一个窗口
         EsUtil::MainWindow = this; // 把主窗口的指针拿来
         EsUtil::ExtractPaper = new ExtractPaper();
+        EsUtil::subjectService = &subjectService;
         this->ep = EsUtil::ExtractPaper;
         this->csw = EsUtil::CreateSubjectWindow;
         this->csw->setRealParent(this);// 设置主窗
@@ -46,6 +48,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     //ui->tableView->verticalHeader()->hide(); // 隐藏行号
+
+    // 更新卷子表
+    initPaperWidget();
 }
 
 MainWindow::~MainWindow()
@@ -170,4 +175,50 @@ void MainWindow::on_extractPaperBtn_clicked()
     this->ep->setSubject(s);
     this->ep->show();
     this->hide();
+}
+
+void MainWindow::initPaperWidget()
+{
+    ui->paperTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);// 选择一行
+//    ui->categoryTableWidget->setSelectionModel(QAbstractItemView::SingleSelection); // 只能单选
+    ui->paperTableWidget->setColumnCount(5); // 设置列数
+    ui->paperTableWidget->resizeColumnToContents(0); // 自动调节宽度
+    ui->paperTableWidget->resizeColumnsToContents(); // 行高与内容高度相匹配
+    QHeaderView* wl = ui->paperTableWidget->horizontalHeader();
+    wl->resizeSection(0,55);
+    wl->resizeSection(1,100);
+    wl->resizeSection(2,120);
+    wl->resizeSection(3,110);
+    wl->resizeSection(4,50);
+//    wl->setStretchLastSection(true);
+    QStringList list;
+    list << "试卷编号" << "试卷名" << "科目名" << "创建时间" << "操作";
+    ui->paperTableWidget->setHorizontalHeaderLabels(list);
+}
+
+void MainWindow::refreshPaperWidget()
+{
+    // 每次刷新都需要删除之前的数据
+    // 清空到清空为止
+    while(ui->paperTableWidget->rowCount() != 0){
+        ui->paperTableWidget->removeRow(0);
+    }
+
+    plist = subjectService.getSPaperList();
+
+    qDebug() << "plist size" <<plist.size();
+    for(int i = 0 ;i < plist.size();i++){
+        ui->paperTableWidget->insertRow(i);
+        ui->paperTableWidget->setItem(i,0,new QTableWidgetItem(tr("%1").arg(plist[i]->getPid())));
+        ui->paperTableWidget->setItem(i,1,new QTableWidgetItem(plist[i]->getPname()));
+        ui->paperTableWidget->setItem(i,2,new QTableWidgetItem(plist[i]->getSubject()->getS_name()));
+        ui->paperTableWidget->setItem(i,3,new QTableWidgetItem(plist[i]->getCreateTime()));
+        ui->paperTableWidget->setCellWidget(i,4,new DeleteButton(plist[i]->getPid(),"删除"));
+    }
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    // 刷新卷子
+    refreshPaperWidget();
 }

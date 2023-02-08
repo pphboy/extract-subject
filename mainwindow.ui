@@ -169,6 +169,9 @@ background: red;</string>
       <height>361</height>
      </rect>
     </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
    </widget>
    <zorder>deleteSubjectBtn</zorder>
    <zorder>createSubjectList</zorder>

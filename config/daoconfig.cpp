@@ -143,7 +143,8 @@ DaoConfig* DaoConfig::get()
     if(dc == nullptr){
         dc = new DaoConfig;
     }
-    qDebug() << "引用一次DaoConfig" << dc ;
+
+//    qDebug() << "引用一次DaoConfig" << dc ;
     return dc;
 }
 

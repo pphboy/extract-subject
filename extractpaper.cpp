@@ -172,6 +172,8 @@ bool ExtractPaper::extractSubject(SPaper *spaper)
     EsUtil::MainWindow->show(); // 打开主窗口
     this->hide(); // 隐藏窗口，等待下次使用
 
+    QMessageBox::information(this,"成功",tr("恭喜你，名为《%1》 的试卷抽取成功").arg(spaper->getPname()));
+
     // clear 清理
     ui->titleLineEdit->setText("");
     subject->setS_id(-1);

@@ -9,6 +9,7 @@
 #include "mainwindow.h"
 #include "addonesubjectdetail.h"
 #include "extractpaper.h"
+#include "config/subjectservice.h"
 #include <random>
 #include <iostream>
 
@@ -23,6 +24,7 @@ public:
     static AddOneSubjectDetail *AddOneSubjectDetail;
     static ExtractPaper *ExtractPaper;
     static MainWindow *MainWindow;
+    static SubjectService *subjectService;
     /**
      * @brief extract
      * @param len 需要的随机索引长度

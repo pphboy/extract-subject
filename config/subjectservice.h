@@ -35,6 +35,8 @@ public:
     bool addSPaperCategory(SPaperCategory *scg);
     QVector<Task *> getTaskListByCid(int cid);
     bool addSPaperAnswer(SAnswer *asnwer);
+    QVector<SPaper *> getSPaperList();
+    bool deleteSPaperById(int pid);
 
 private:
     QSqlQuery *query;
