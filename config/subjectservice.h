@@ -8,6 +8,9 @@
 #include "pojo/subject.h"
 #include "pojo/category.h"
 #include "pojo/task.h"
+#include "pojo/spaper.h"
+#include "pojo/spapercategory.h"
+#include "pojo/sanswer.h"
 
 class SubjectService
 {
@@ -28,6 +31,10 @@ public:
     bool deleteSubjectById(int sid);
     bool updateSubjectById(Subject *subject);
     QVector<Category *> getCategoryListBySubjectId(int sid);
+    bool addSPaper(SPaper *spaper);
+    bool addSPaperCategory(SPaperCategory *scg);
+    QVector<Task *> getTaskListByCid(int cid);
+    bool addSPaperAnswer(SAnswer *asnwer);
 
 private:
     QSqlQuery *query;

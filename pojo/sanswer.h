@@ -9,6 +9,8 @@ class SAnswer : public QObject
 public:
     explicit SAnswer(QObject *parent = nullptr);
 
+    SAnswer(int tid,int pcid):tid(tid),pcid(pcid){};
+
     void setPcid(int pcid) {this->pcid = pcid;};
     int getPcid()  {return this->pcid;};
 

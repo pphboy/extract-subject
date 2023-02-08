@@ -229,7 +229,72 @@ QVector<Category *> SubjectService::getCategoryListBySubjectId(int sid)
         query->next();
         tmp->setTaskNum(query->value("cnum").toInt());
     }
-
+    query->clear();
     return list;
+}
+
+bool SubjectService::addSPaper(SPaper *spaper)
+{
+    QString sql = R"(
+                 INSERT INTO "main"."s_paper"("p_id", "s_id", "p_name", "create_time") VALUES (NULL,?,?,?);
+                  )";
+    query->prepare(sql);
+    query->bindValue(0,spaper->getSid());
+    query->bindValue(1,spaper->getPname());
+    query->bindValue(2,EsUtil::getCurrentFormatData());
+    bool ok = query->exec();
+
+    spaper->setPid(query->lastInsertId().toInt());
+
+//    qDebug() << "spaper Pid="<< spaper->getPid();
+
+    query->clear();
+    return  ok;
+}
+
+bool SubjectService::addSPaperCategory(SPaperCategory *scg)
+{
+    QString sql = R"(
+        INSERT INTO "main"."s_paper_category"("pc_id", "c_id", "p_id", "pc_status") VALUES (NULL,?,?,?);
+                  )";
+    query->prepare(sql);
+    query->bindValue(0,scg->getCid());
+    query->bindValue(1,scg->getPid());
+    query->bindValue(2,true);
+    bool ok = query->exec();
+    scg->setPcid(query->lastInsertId().toInt());
+
+//    qDebug() << "pcid " << scg->getPcid();
+
+    query->clear();
+    return ok;
+}
+
+QVector<Task *> SubjectService::getTaskListByCid(int cid)
+{
+    QVector<Task*> qlist;
+    query->exec(QString("select * from s_task where c_id = %1").arg(cid));
+    while(query->next()){
+        qlist.push_back(new Task(query->value("t_id").toInt()));
+    }
+    query->clear();
+    return qlist;
+}
+
+bool SubjectService::addSPaperAnswer(SAnswer *answer)
+{
+    QString sql = R"(
+    INSERT INTO "main"."s_anwser"("a_id", "t_id", "pc_id", "a_detail", "update_time") VALUES (NULL,?,?,NULL,?);
+                  )";
+
+    query->prepare(sql);
+    query->bindValue(0,answer->getTid());
+    query->bindValue(1,answer->getPcid());
+    query->bindValue(2,EsUtil::getCurrentFormatData());
+
+    bool ok = query->exec();
+
+    query->clear();
+    return ok;
 }
 

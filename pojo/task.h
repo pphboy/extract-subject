@@ -8,6 +8,7 @@ class Task
 {
 public:
     Task();
+    Task(int t_id):t_id(t_id){};
     Task(int t_id,QString t_content,QString t_description):t_id(t_id),t_content(t_content),t_description(t_description){};
 
     Task(int t_id,int c_id,QString t_content,QString t_description,QString t_title,QString t_answer)

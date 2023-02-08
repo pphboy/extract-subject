@@ -9,6 +9,7 @@ class SPaper
 {
 public:
     SPaper();
+    SPaper(int sid,QString pname):sid(sid),pname(pname){};
     void setSid(int sid) {this->sid = sid;};
     int getSid()  {return this->sid;};
     void setPid(int pid) {this->pid = pid;};

@@ -9,6 +9,8 @@
 #include "mainwindow.h"
 #include "addonesubjectdetail.h"
 #include "extractpaper.h"
+#include <random>
+#include <iostream>
 
 
 class EsUtil
@@ -21,6 +23,13 @@ public:
     static AddOneSubjectDetail *AddOneSubjectDetail;
     static ExtractPaper *ExtractPaper;
     static MainWindow *MainWindow;
+    /**
+     * @brief extract
+     * @param len 需要的随机索引长度
+     * @param size 需要的随机索引的最大值
+     * @return 返回一个随机索引值
+     */
+    static QVector<int> extract(int len,int size);
 private:
 };
 
