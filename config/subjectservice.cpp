@@ -211,3 +211,25 @@ bool SubjectService::updateSubjectById(Subject *subject)
     return ok;
 }
 
+QVector<Category *> SubjectService::getCategoryListBySubjectId(int sid)
+{
+    QVector<Category*> list;
+    query->prepare("select * from s_category where s_id = ?");
+    query->bindValue(0,sid);
+    query->exec();
+
+    // 先这样写吧，然后再把这个每个分类的题目数查出来
+    while(query->next()){
+        list.push_back(new Category(query->value("c_id").toInt(),query->value("c_name").toString()));
+    }
+    query->clear();
+
+    for(auto tmp: list){
+        query->exec(QString("select count(*) cnum from s_task where c_id = %1").arg(tmp->getC_id()));
+        query->next();
+        tmp->setTaskNum(query->value("cnum").toInt());
+    }
+
+    return list;
+}
+

@@ -2,6 +2,7 @@
 #define SUBJECTSERVICE_H
 
 #include <QSqlQuery>
+#include <QVector>
 #include <QString>
 #include "daoconfig.h"
 #include "pojo/subject.h"
@@ -26,6 +27,8 @@ public:
     bool updateTaskById(Task* task);
     bool deleteSubjectById(int sid);
     bool updateSubjectById(Subject *subject);
+    QVector<Category *> getCategoryListBySubjectId(int sid);
+
 private:
     QSqlQuery *query;
 

@@ -4,6 +4,7 @@
 #include <QSqlTableModel>
 #include <QMainWindow>
 #include "config/subjectservice.h"
+#include "extractpaper.h"
 
 
 
@@ -36,10 +37,13 @@ private slots:
 
     void on_modifySubjectBtn_clicked();
 
+    void on_extractPaperBtn_clicked();
+
 private:
     QSqlTableModel *model;
     Ui::MainWindow *ui;
     CreateSubjectWindow *csw = nullptr;
+    ExtractPaper *ep = nullptr;
     SubjectService subjectService;
 
 };

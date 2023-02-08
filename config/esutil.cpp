@@ -6,6 +6,7 @@
 AddOneSubjectDetail* EsUtil::AddOneSubjectDetail = nullptr;
 CreateSubjectWindow* EsUtil::CreateSubjectWindow = nullptr;
 MainWindow* EsUtil::MainWindow = nullptr;
+ExtractPaper* EsUtil::ExtractPaper = nullptr;
 
 EsUtil::EsUtil()
 {

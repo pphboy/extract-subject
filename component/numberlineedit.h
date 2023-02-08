@@ -1,11 +1,16 @@
 #ifndef MAXLINEEDIT_H
 #define MAXLINEEDIT_H
 
+#include <QLineEdit>
 
-class MaxLineEdit : public QLineEdit
+class NumberLineEdit: public QLineEdit
 {
 public:
-    MaxLineEdit();
+    explicit NumberLineEdit(QWidget *parent = nullptr);
+    explicit NumberLineEdit(int maxNum,QWidget *parent = nullptr);
+
+private:
+    int maxNum;
 };
 
 #endif // MAXLINEEDIT_H

@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
-    <height>414</height>
+    <width>725</width>
+    <height>426</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -66,29 +66,13 @@
      <string>创建科目</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>20</y>
-      <width>181</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-size: 14px;</string>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;单击选中科目，然后点击查看&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>70</y>
-      <width>621</width>
-      <height>351</height>
+      <y>50</y>
+      <width>321</width>
+      <height>361</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -107,7 +91,7 @@
    <widget class="QPushButton" name="checkSubjectBtn">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>150</x>
       <y>10</y>
       <width>71</width>
       <height>31</height>
@@ -123,10 +107,10 @@
    <widget class="QPushButton" name="deleteSubjectBtn">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>10</y>
-      <width>71</width>
-      <height>31</height>
+      <x>670</x>
+      <y>0</y>
+      <width>51</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="whatsThis">
@@ -136,18 +120,18 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size: 14px;
+     <string notr="true">font-size: 10px;
 color: white;
 background: red;</string>
     </property>
     <property name="text">
-     <string>删除</string>
+     <string>删除科目</string>
     </property>
    </widget>
    <widget class="QPushButton" name="modifySubjectBtn">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>240</x>
       <y>10</y>
       <width>71</width>
       <height>31</height>
@@ -160,12 +144,39 @@ background: red;</string>
      <string>编辑</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="extractPaperBtn">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>10</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
+    </property>
+    <property name="text">
+     <string>抽题</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="paperTableWidget">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>50</y>
+      <width>391</width>
+      <height>361</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>deleteSubjectBtn</zorder>
    <zorder>createSubjectList</zorder>
-   <zorder>label</zorder>
    <zorder>tableView</zorder>
    <zorder>checkSubjectBtn</zorder>
    <zorder>modifySubjectBtn</zorder>
+   <zorder>extractPaperBtn</zorder>
+   <zorder>paperTableWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="enabled">
@@ -175,7 +186,7 @@ background: red;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>620</width>
+     <width>725</width>
      <height>23</height>
     </rect>
    </property>

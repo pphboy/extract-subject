@@ -8,6 +8,7 @@
 #include "createsubjectwindow.h"
 #include "mainwindow.h"
 #include "addonesubjectdetail.h"
+#include "extractpaper.h"
 
 
 class EsUtil
@@ -18,6 +19,7 @@ public:
     static QString getCurrentFormatData();
     static CreateSubjectWindow *CreateSubjectWindow; // 存储其指针在这里方便使用
     static AddOneSubjectDetail *AddOneSubjectDetail;
+    static ExtractPaper *ExtractPaper;
     static MainWindow *MainWindow;
 private:
 };

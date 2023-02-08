@@ -14,9 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     DaoConfig::get()->sqlInit(); // sql 初始化
     // 单例套着单例
+    // 初始化放这里了，肯定是单例
     if(EsUtil::CreateSubjectWindow == nullptr){
         EsUtil::CreateSubjectWindow = new CreateSubjectWindow(); // 初始化一个窗口
         EsUtil::MainWindow = this; // 把主窗口的指针拿来
+        EsUtil::ExtractPaper = new ExtractPaper();
+        this->ep = EsUtil::ExtractPaper;
         this->csw = EsUtil::CreateSubjectWindow;
         this->csw->setRealParent(this);// 设置主窗
     }
@@ -151,4 +154,20 @@ void MainWindow::on_modifySubjectBtn_clicked()
             QMessageBox::critical(this,"警告","懒得修,\n可能出BUG了,\n我相信我自己不会出现捏。");
         }
     }
+}
+
+void MainWindow::on_extractPaperBtn_clicked()
+{
+    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
+    if(index.row() == -1){
+        QMessageBox::critical(this,"失败","抽题需要选择科目");
+        return;
+    }
+    int subject_id = model->index(index.row(),0).data().toInt();
+    QString sname = model->index(index.row(),1).data().toString();
+    Subject *s = new Subject(subject_id,sname);
+    // 直接传了个指针
+    this->ep->setSubject(s);
+    this->ep->show();
+    this->hide();
 }

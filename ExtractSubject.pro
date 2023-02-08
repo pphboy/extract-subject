@@ -15,31 +15,42 @@ CONFIG += c++11
 
 SOURCES += \
     addonesubjectdetail.cpp \
+    component/numberlineedit.cpp \
     config/daoconfig.cpp \
     config/esutil.cpp \
     config/subjectservice.cpp \
     createsubjectwindow.cpp \
+    extractpaper.cpp \
     main.cpp \
     mainwindow.cpp \
     pojo/category.cpp \
+    pojo/sanswer.cpp \
+    pojo/spaper.cpp \
+    pojo/spapercategory.cpp \
     pojo/subject.cpp \
     pojo/task.cpp
 
 HEADERS += \
     addonesubjectdetail.h \
+    component/numberlineedit.h \
     config/daoconfig.h \
     config/esutil.h \
     config/subjectservice.h \
     createsubjectwindow.h \
+    extractpaper.h \
     mainwindow.h \
     pojo/category.h \
     pojo/datastruct.h \
+    pojo/sanswer.h \
+    pojo/spaper.h \
+    pojo/spapercategory.h \
     pojo/subject.h \
     pojo/task.h
 
 FORMS += \
     addonesubjectdetail.ui \
     createsubjectwindow.ui \
+    extractpaper.ui \
     mainwindow.ui
 
 # Default rules for deployment.
