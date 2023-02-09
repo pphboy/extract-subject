@@ -12,6 +12,7 @@
 #include "config/subjectservice.h"
 #include <random>
 #include <iostream>
+#include "component/paperwidget.h"
 
 
 class EsUtil
@@ -25,6 +26,7 @@ public:
     static ExtractPaper *ExtractPaper;
     static MainWindow *MainWindow;
     static SubjectService *subjectService;
+    static PaperWidget *PaperWidget;
     /**
      * @brief extract
      * @param len 需要的随机索引长度

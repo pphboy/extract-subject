@@ -21,9 +21,11 @@ MainWindow::MainWindow(QWidget *parent)
         EsUtil::MainWindow = this; // 把主窗口的指针拿来
         EsUtil::ExtractPaper = new ExtractPaper();
         EsUtil::subjectService = &subjectService;
+        this->paperWidget = new PaperWidget; // 抽题窗口
         this->ep = EsUtil::ExtractPaper;
         this->csw = EsUtil::CreateSubjectWindow;
         this->csw->setRealParent(this);// 设置主窗
+        EsUtil::PaperWidget = this->paperWidget;
     }
 
     ui->setupUi(this);
@@ -51,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 更新卷子表
     initPaperWidget();
+
 }
 
 MainWindow::~MainWindow()
@@ -180,7 +183,7 @@ void MainWindow::on_extractPaperBtn_clicked()
 void MainWindow::initPaperWidget()
 {
     ui->paperTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);// 选择一行
-//    ui->categoryTableWidget->setSelectionModel(QAbstractItemView::SingleSelection); // 只能单选
+    ui->paperTableWidget->setSelectionMode(QAbstractItemView::SingleSelection); // 只能单选
     ui->paperTableWidget->setColumnCount(5); // 设置列数
     ui->paperTableWidget->resizeColumnToContents(0); // 自动调节宽度
     ui->paperTableWidget->resizeColumnsToContents(); // 行高与内容高度相匹配
@@ -221,4 +224,21 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     // 刷新卷子
     refreshPaperWidget();
+}
+
+void MainWindow::on_makeAnswerBtn_clicked()
+{
+    QModelIndex index = ui->paperTableWidget->selectionModel()->currentIndex();
+    if(index.row() == -1){
+        QMessageBox::critical(this,"失败","抽题需要选择科目");
+        return;
+    }
+    int  paperId = ui->paperTableWidget->model()->index(index.row(),0).data().toInt();
+    qDebug() << paperId;
+
+    this->paperWidget->show();
+    // 刷新paperWidget的数据
+
+    this->hide();
+
 }

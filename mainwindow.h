@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include "config/subjectservice.h"
 #include "extractpaper.h"
+#include "component/paperwidget.h"
 
 
 
@@ -48,6 +49,8 @@ private slots:
 
     void on_extractPaperBtn_clicked();
 
+    void on_makeAnswerBtn_clicked();
+
 private:
     QSqlTableModel *model;
     Ui::MainWindow *ui;
@@ -55,6 +58,7 @@ private:
     CreateSubjectWindow *csw = nullptr;
     ExtractPaper *ep = nullptr;
     SubjectService subjectService;
+    PaperWidget* paperWidget;
 
 };
 

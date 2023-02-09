@@ -173,6 +173,22 @@ background: red;</string>
      <set>QAbstractItemView::NoEditTriggers</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="makeAnswerBtn">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>10</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 14px;</string>
+    </property>
+    <property name="text">
+     <string>做题</string>
+    </property>
+   </widget>
    <zorder>deleteSubjectBtn</zorder>
    <zorder>createSubjectList</zorder>
    <zorder>tableView</zorder>
@@ -180,6 +196,7 @@ background: red;</string>
    <zorder>modifySubjectBtn</zorder>
    <zorder>extractPaperBtn</zorder>
    <zorder>paperTableWidget</zorder>
+   <zorder>makeAnswerBtn</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="enabled">

@@ -10,6 +10,7 @@ CreateSubjectWindow* EsUtil::CreateSubjectWindow = nullptr;
 MainWindow* EsUtil::MainWindow = nullptr;
 ExtractPaper* EsUtil::ExtractPaper = nullptr;
 SubjectService* EsUtil::subjectService =nullptr;
+PaperWidget* EsUtil::PaperWidget = nullptr;
 
 EsUtil::EsUtil()
 {
