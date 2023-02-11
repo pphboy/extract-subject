@@ -3,13 +3,15 @@
 #include <QCoreApplication>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QCoreApplication>
 
 DaoConfig::DaoConfig()
 {
+
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("../es.db");
+    db.setDatabaseName(QString("%1/es.db").arg(QCoreApplication::applicationDirPath()));
     db.open(); // 初始化时需要打开
-    qDebug() << "数据库成功打开";
+    qDebug() << "数据库成功打开" << QString("%1/es.db").arg(QCoreApplication::applicationDirPath());
 }
 
 void DaoConfig::sqlInit()
