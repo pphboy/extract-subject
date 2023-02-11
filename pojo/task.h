@@ -2,6 +2,7 @@
 #define TASK_H
 
 
+#include <QTextEdit>
 #include <QString>
 
 class Task
@@ -9,6 +10,12 @@ class Task
 public:
     Task();
     Task(int t_id):t_id(t_id){};
+    /**
+     * @brief Task 在查询卷子的时候需要用到
+     * @param t_id
+     * @param aid
+     */
+    Task(int t_id,int aid):t_id(t_id),aid(aid){};
     Task(int t_id,QString t_content,QString t_description):t_id(t_id),t_content(t_content),t_description(t_description){};
 
     Task(int t_id,int c_id,QString t_content,QString t_description,QString t_title,QString t_answer)
@@ -28,18 +35,29 @@ public:
     QString getT_title(){return this->t_title;};
     void setT_answer(QString t_answer){this->t_answer = t_answer;};
     QString getT_answer(){return this->t_answer;};
+    // 用来保存答案的ID
+    void setAid(int aid) {this->aid = aid;};
+    int getAid()  {return this->aid;};
+    QTextEdit* getQte(){return this->qte;};
+    void setQte(QTextEdit* qte){this->qte = qte;};
 
 
 private:
     int t_id = -1;
     int c_id;
     int s_id;
+    // 题目里存答案的ID，就只是用来保存答案用的，没其他用处，这里设计有点小问题
+    int aid;
     QString t_title;
     QString t_answer;
     QString t_description;
     QString t_content;
     QString create_time;
     QString update_time;
+    /**
+     * @brief 答案的输入框
+     */
+    QTextEdit *qte;
 };
 
 #endif // TASK_H

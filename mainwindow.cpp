@@ -234,10 +234,11 @@ void MainWindow::on_makeAnswerBtn_clicked()
         return;
     }
     int  paperId = ui->paperTableWidget->model()->index(index.row(),0).data().toInt();
-    qDebug() << paperId;
+    qDebug() <<  "传过去的PAPERID：" << paperId;
+    // 刷新paperWidget的数据
+    this->paperWidget->refreshPaper(paperId);
 
     this->paperWidget->show();
-    // 刷新paperWidget的数据
 
     this->hide();
 

@@ -37,7 +37,9 @@ public:
     bool addSPaperAnswer(SAnswer *asnwer);
     QVector<SPaper *> getSPaperList();
     bool deleteSPaperById(int pid);
+    SPaper getSPaperById(int pid);
 
+    bool savePaperAnswer(Task *task);
 private:
     QSqlQuery *query;
 

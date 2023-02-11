@@ -1,49 +1,84 @@
 #include "paperwidget.h"
 #include <QPushButton>
+#include <config/esutil.h>
 #include <QTextEdit>
+#include <math.h>
 #include <QTextBrowser>
+#include <QDebug>
+#include <QMessageBox>
 
 PaperWidget::PaperWidget(QWidget *parent) : QWidget(parent)
 {
-//    this->setFixedSize(700,800);
-    this->resize(700,800);
+    this->setFixedSize(700,800);
 
     QPushButton *saveBtn = new QPushButton("保存",this);
     saveBtn->move(this->width()-75,0);
 
+    // 绑定槽
+    connect(saveBtn,&QPushButton::clicked,this,&PaperWidget::saveAnswer);
+
     paperTitle = new QLabel("卷子名",this);
-    paperTitle->move(this->width()/2,0);
     paperTitle->setStyleSheet("font-size:20px;");
+    paperTitle->move(0,2);
 
     qsa = new QScrollArea(this);
-    qsa->setFixedSize(700,700);
+    qsa->setFixedSize(700,760);
+    qsa->move(0,40);
 
-    qsa->move(0,100);
 
-    paperView = new QWidget; // 题目显示的窗口
+}
 
-    paperPaint = new QGridLayout; // 题目显示的布局，就是把一些细节插入到内
-
-    paperView->setLayout(paperPaint);
-
-    paperPaint->addWidget(new QLabel("填空题",paperView));
-    QTextEdit *qte = new QTextEdit;
-    paperPaint->addWidget(qte);
-    qte->setFixedWidth(680);
-    qte->setReadOnly(true); // 只读
-    qte->setText("hello");
-
-    QTextBrowser *qtb = new QTextBrowser;
-    qtb->setHtml("<h1>你好啊</h1>");
-    paperPaint->addWidget(qtb);
-
-    // 一个题目，一个输入框，把题目的 列表的索引与 输入框的索引对应起来就行
-
-    qsa->setWidget(paperView);
-
+void PaperWidget::closeEvent(QCloseEvent *event)
+{
+    EsUtil::MainWindow->show();
+    this->hide();
 }
 
 void PaperWidget::refreshPaper(int pid)
 {
+    // 把题目查出来
+    // 这个玩意，每次显示的时候都需要重新绘制，不然就出问题
+    paperView = new QWidget; // 题目显示的窗口
+    paperView->setMinimumHeight(700);
+    paperPaint = new QGridLayout; // 题目显示的布局，就是把一些细节插入到内
+    paperView->setLayout(paperPaint);
 
+    s = EsUtil::subjectService->getSPaperById(pid);
+
+    this->setWindowTitle(tr("《%1》卷子详细页").arg(s.getPname()));
+    this->paperTitle->setText(tr("《%1》 注意：写完要保存，没写自动保存").arg(s.getPname()));
+
+    qDebug() << s.getPname();
+    int height;
+    for(auto a: s.getCategoryTaskList()){
+        QLabel *t = new QLabel(a->getCname());
+        t->setStyleSheet("font-size:20px");
+        // 分类
+        paperPaint->addWidget(t);
+        for(auto t: a->getTaskList()){
+            height = ceil(t->getT_title().size()/40.00)*26;
+            // 题目
+            QTextBrowser *qtb = new QTextBrowser;
+            qtb->setHtml(t->getT_description());
+            qtb->setFixedSize(qsa->width()-35,height);
+            paperPaint->addWidget(qtb);
+
+            // 这个应该在查询的时候就初始化好了，因为我需要设置答案
+            t->getQte()->setFixedWidth(qsa->width()-35);
+            paperPaint->addWidget(t->getQte());
+
+        }
+    }
+
+    qsa->setWidget(paperView);
+}
+
+void PaperWidget::saveAnswer()
+{
+    for(auto a: s.getCategoryTaskList()){
+        for(auto t: a->getTaskList()){
+            EsUtil::subjectService->savePaperAnswer(t);
+        }
+    }
+    QMessageBox::information(this,"成功","您的答案保存成功");
 }

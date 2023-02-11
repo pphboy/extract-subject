@@ -2,6 +2,8 @@
 #define CATEGORY_H
 
 #include <QString>
+#include <QVector>
+#include "pojo/task.h"
 
 class Category
 {
@@ -14,11 +16,14 @@ public:
     void setTaskNum(int taskNum){this->taskNum = taskNum;};
     QString getCname() {return this->c_name;};
     int getTaskNum(){ return this->taskNum;};
+    QVector<Task*> getTaskList(){return this->taskList;};
+    void setTaskList(QVector<Task*> task){this->taskList = task;};
 
 private:
     int c_id;
     QString c_name;
     int taskNum;
+    QVector<Task*> taskList;
 };
 
 #endif // CATEGORY_H

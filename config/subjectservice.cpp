@@ -284,7 +284,7 @@ QVector<Task *> SubjectService::getTaskListByCid(int cid)
 bool SubjectService::addSPaperAnswer(SAnswer *answer)
 {
     QString sql = R"(
-    INSERT INTO "main"."s_anwser"("a_id", "t_id", "pc_id", "a_detail", "update_time") VALUES (NULL,?,?,NULL,?);
+    INSERT INTO "main"."s_answer"("a_id", "t_id", "pc_id", "a_detail", "update_time") VALUES (NULL,?,?,NULL,?);
                   )";
 
     query->prepare(sql);
@@ -331,6 +331,92 @@ bool SubjectService::deleteSPaperById(int pid)
     ok &=query->exec(QString("delete from s_paper_category where p_id = %1").arg(pid));
     // 删除试卷
     ok &=query->exec(QString("delete from s_paper where p_id = %1").arg(pid));
+    query->clear();
+    return ok;
+}
+
+SPaper SubjectService::getSPaperById(int pid)
+{
+    // 查询卷子
+    bool ok = query->exec(QString("select * from s_paper where p_id = %1").arg(pid));
+    query->next();
+    SPaper *spaper = new SPaper(query->value("p_id").toInt(),
+                                query->value("p_id").toInt(),
+                                query->value("p_name").toString(),
+                                query->value("create_time").toString());
+    qDebug() <<  query->value("p_id").toInt(),
+                                query->value("p_id").toInt(),
+                                query->value("p_name").toString(),
+                                query->value("create_time").toString();
+    query->clear();
+
+    query->exec(QString("select * from s_paper_category where p_id = %1").arg(pid));
+    QVector<SPaperCategory*> pcidList; // 卷子的ID集
+    while(query->next()){
+        SPaperCategory *spg = new SPaperCategory;
+        spg->setCid(query->value("c_id").toInt());
+        spg->setPcid(query->value("pc_id").toInt());
+        pcidList.push_back(spg);
+    }
+    query->clear();
+
+    QVector<Category*> cateList;
+    for(auto a: pcidList){
+        // 查询分类
+        cateList.push_back(this->getCategoryById(a->getCid()));
+    }
+    // 为什么要分开查，因为这个整个软件用的都是同一个query，只能同步，不能异步BUG我猜不出来
+    // 查询题目
+    for(int i = 0;i<pcidList.size();i++){
+        auto c = pcidList[i];
+        QVector<Task*> taskList;
+        query->exec(QString("select * from s_answer where pc_id = %1").arg(c->getPcid()));
+        while(query->next()){
+            taskList.push_back(new Task(query->value("t_id").toInt(),query->value("a_id").toInt()));
+        }
+        // 不知道准不准
+        cateList[i]->setTaskList(taskList);
+        query->clear();
+
+    }
+    // 没办法，这个架构设计的，就不能用异步来查
+    for(auto c: cateList){
+        for(auto t: c->getTaskList()){
+            query->exec(QString("select * from s_task where t_id = %1").arg(t->getT_id()));
+            query->next();
+
+            t->setT_description(query->value("t_description").toString());
+            t->setT_content(query->value("t_content").toString());
+            t->setT_title(query->value("t_title").toString());
+            query->clear();
+        }
+    }
+    // 没办法，这个架构设计的，就不能用异步来查
+    for(auto c: cateList){
+        for(auto t: c->getTaskList()){
+            query->exec(QString("select a_detail from s_answer where a_id = %1").arg(t->getAid()));
+            query->next();
+
+            QTextEdit *qte = new QTextEdit;
+            qte->setHtml(query->value("a_detail").toString());
+            t->setQte(qte);
+        }
+    }
+    spaper->setCategoryTaskList(cateList);
+
+    return *spaper;
+}
+
+bool SubjectService::savePaperAnswer(Task *task)
+{
+    QString sql = R"(
+                 UPDATE "main"."s_answer" SET  "a_detail" = ? WHERE "a_id" = ?;
+                  )";
+    query->prepare(sql);
+    qDebug() << task->getQte()->toHtml() << task->getAid();
+    query->bindValue(0,task->getQte()->toHtml());
+    query->bindValue(1,task->getAid());
+    bool ok = query->exec();
     query->clear();
     return ok;
 }

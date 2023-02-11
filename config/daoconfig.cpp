@@ -21,9 +21,9 @@ void DaoConfig::sqlInit()
 
     const QString createDatabaseSql = R"(
                                                     /*==============================================================*/
-                                        /* Table: s_anwser                                              */
+                                        /* Table: s_answer                                              */
                                         /*==============================================================*/
-                                        create table s_anwser
+                                        create table s_answer
                                         (
                                            a_id                 integer primary key autoincrement,
                                            t_id                 int,
