@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="MainIcon" resource="resource/FResourece.qrc">
+    <normaloff>:/image/ExractSubjectLogo.png</normaloff>:/image/ExractSubjectLogo.png</iconset>
+  </property>
   <widget class="QTableWidget" name="categoryTableWidget">
    <property name="geometry">
     <rect>
@@ -89,6 +93,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource/FResourece.qrc"/>
+ </resources>
  <connections/>
 </ui>

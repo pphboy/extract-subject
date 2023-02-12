@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>添加新题目</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resource/FResourece.qrc">
+    <normaloff>:/image/ExractSubjectLogo.png</normaloff>:/image/ExractSubjectLogo.png</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="4" column="0">
     <spacer name="verticalSpacer_2">
@@ -123,6 +127,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource/FResourece.qrc"/>
+ </resources>
  <connections/>
 </ui>

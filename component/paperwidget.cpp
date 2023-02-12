@@ -9,6 +9,16 @@
 
 PaperWidget::PaperWidget(QWidget *parent) : QWidget(parent)
 {
+
+    QIcon icon;
+    QString iconThemeName = QString::fromUtf8("MainIcon");
+    if (QIcon::hasThemeIcon(iconThemeName)) {
+        icon = QIcon::fromTheme(iconThemeName);
+    } else {
+        icon.addFile(QString::fromUtf8(":/image/ExractSubjectLogo.png"), QSize(), QIcon::Normal, QIcon::Off);
+    }
+    this->setWindowIcon(icon);
+
     this->setFixedSize(700,800);
 
     QPushButton *saveBtn = new QPushButton("保存",this);

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>题目详情编辑</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resource/FResourece.qrc">
+    <normaloff>:/image/ExractSubjectLogo.png</normaloff>:/image/ExractSubjectLogo.png</iconset>
+  </property>
   <widget class="QLineEdit" name="majorLineEdit">
    <property name="geometry">
     <rect>
@@ -170,6 +174,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource/FResourece.qrc"/>
+ </resources>
  <connections/>
 </ui>
