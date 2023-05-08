@@ -211,10 +211,40 @@ background: red;</string>
      <x>0</x>
      <y>0</y>
      <width>725</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>操作</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="helpManu">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="helpAboutMenu"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="helpManu"/>
   </widget>
+  <action name="helpAboutMenu">
+   <property name="text">
+    <string>关于</string>
+   </property>
+   <property name="iconText">
+    <string>关于</string>
+   </property>
+   <property name="toolTip">
+    <string>关于</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>false</bool>
+   </property>
+   <property name="shortcutVisibleInContextMenu">
+    <bool>false</bool>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="resource/FResourece.qrc"/>

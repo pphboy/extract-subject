@@ -23,6 +23,9 @@ public:
     virtual void closeEvent(QCloseEvent *event);
     void updateTaskDoc(Task *task);
 
+protected:
+    virtual void keyPressEvent(QKeyEvent *event);
+
 private slots:
 
     void on_saveButton_clicked();

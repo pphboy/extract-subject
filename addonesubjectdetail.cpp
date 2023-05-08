@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "createsubjectwindow.h"
 #include <QMessageBox>
+#include <QKeyEvent>
 
 AddOneSubjectDetail::AddOneSubjectDetail(QWidget *parent) :
     QWidget(parent),
@@ -63,6 +64,9 @@ void AddOneSubjectDetail::closeEvent(QCloseEvent *event)
 {
     ui->questionEdit->clear();
     ui->answerEdit->clear();
+    ui->categoryBox->clear();
+    // 关掉 继续添加 选择框
+    ui->addContinueBox->setChecked(false);
     task.setT_id(-1);
     task.setC_id(-1);
 }
@@ -87,6 +91,21 @@ void AddOneSubjectDetail::updateTaskDoc(Task *t)
     int index = ui->categoryBox->findData(QVariant(t->getC_id()));
     qDebug()  << "设置Index = " << index;
     ui->categoryBox->setCurrentIndex(index);
+}
+
+void AddOneSubjectDetail::keyPressEvent(QKeyEvent *event)
+{
+    qDebug() << event->text();
+    // 判断是否按下Ctrl键
+    if(event->modifiers() == Qt::ControlModifier){
+        // Ctrl+S保存试题
+        if(event->key() == Qt::Key_S){
+            // 调用保存试题的方法
+            on_saveButton_clicked();
+        }
+        qDebug() << "Save Quest key " << event->key();
+    }
+    QWidget::keyPressEvent(event);
 }
 
 /**
@@ -127,7 +146,7 @@ void AddOneSubjectDetail::on_saveButton_clicked()
         ok = subjectService.updateTaskById(&task);
     }
 
-    // 判断是否插入成功
+    // 判断是否是否执行成功
     if(ok){
         // 还需要刷新题目列表
         QMessageBox::information(this,"成功",tr("%1题目成功").arg(task.getT_id() == -1 ? "添加":"编辑"));
@@ -136,12 +155,23 @@ void AddOneSubjectDetail::on_saveButton_clicked()
         // 清除数据
         ui->questionEdit->clear();
         ui->answerEdit->clear();
-        ui->categoryBox->clear();
-
+        // 把ID置为-1，每次操作后不能再修改，除非是编辑状态
+        // 编辑后
         task.setT_id(-1);
-        // 隐藏子窗口，打开父窗口
-        this->hide();
+
+        // 继续添加题目，除了分类留着，其他的选项都需要清空
+        // 判断是否还需要继续添加题目
+        if(ui->addContinueBox->isChecked()){ // 需要继续添加
+            // 目前这里不需要操作，但留个位置方便后面更新用
+
+        }else { // 不需要继续添加
+            ui->categoryBox->clear();
+            // 隐藏子窗口，打开父窗口
+            this->hide();
+        }
+
     } else {
         QMessageBox::critical(this,"错误",tr("%1题目失败").arg(task.getT_id() == -1 ? "添加":"编辑"));
     }
+
 }

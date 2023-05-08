@@ -3,12 +3,15 @@
 #include <config/esutil.h>
 #include <QTextEdit>
 #include <math.h>
-#include <QTextBrowser>
 #include <QDebug>
 #include <QMessageBox>
+#include <QKeyEvent>
 
 PaperWidget::PaperWidget(QWidget *parent) : QWidget(parent)
 {
+    if(qtshow == nullptr){
+        qtshow = new QTextBrowser;
+    }
 
     QIcon icon;
     QString iconThemeName = QString::fromUtf8("MainIcon");
@@ -22,10 +25,13 @@ PaperWidget::PaperWidget(QWidget *parent) : QWidget(parent)
     this->setFixedSize(700,800);
 
     QPushButton *saveBtn = new QPushButton("保存",this);
-    saveBtn->move(this->width()-75,0);
-
+    saveBtn->setToolTip("Ctrl+S保存");
     // 绑定槽
-    connect(saveBtn,&QPushButton::clicked,this,&PaperWidget::saveAnswer);
+    connect(saveBtn,&QPushButton::clicked,[=](){
+        saveAnswer(true);
+    });
+    saveBtn->move(this->width()-75,0);
+    saveBtn->setToolTip("Ctrl+s 保存");
 
     paperTitle = new QLabel("卷子名",this);
     paperTitle->setStyleSheet("font-size:20px;");
@@ -40,7 +46,24 @@ PaperWidget::PaperWidget(QWidget *parent) : QWidget(parent)
 void PaperWidget::closeEvent(QCloseEvent *event)
 {
     EsUtil::MainWindow->show();
+    // 保存，但不弹窗
+    saveAnswer(false);
     this->hide();
+    qtshow->hide();
+}
+
+void PaperWidget::keyPressEvent(QKeyEvent *event)
+{
+    qDebug() << event->text();
+    // 判断是否按下Ctrl键
+    if(event->modifiers() == Qt::ControlModifier){
+        // Ctrl+S保存试卷
+        if(event->key() == Qt::Key_S){
+            saveAnswer();
+        }
+        qDebug() << "key " << event->key();
+    }
+    QWidget::keyPressEvent(event);
 }
 
 void PaperWidget::refreshPaper(int pid)
@@ -59,7 +82,7 @@ void PaperWidget::refreshPaper(int pid)
     this->paperTitle->setText(tr("《%1》 注意：写完要保存，没写自动保存").arg(s.getPname()));
 
 
-    QTextBrowser *qtshow = new QTextBrowser;
+    qtshow = new QTextBrowser;
     qDebug() << s.getPname();
     int height;
     for(auto a: s.getCategoryTaskList()){
@@ -76,32 +99,38 @@ void PaperWidget::refreshPaper(int pid)
             qtb->setHtml(t->getT_description());
             qtb->setFixedSize(qsa->width()-35,height);
             paperPaint->addWidget(qtb);
+
             // 显示答案的按钮
             QPushButton* qb = new QPushButton("显示答案");
+            qb->setToolTip("Ctrl+T 当前输入框所属题目答案");
             connect(qb,&QPushButton::clicked,[=](){
                 qtshow->setHtml(t->getT_content());
                 qtshow->setWindowFlags(Qt::WindowStaysOnTopHint);
                 qtshow->setWindowTitle("答案显示框");
+                qtshow->setMinimumWidth(450);
                 qtshow->show();
             });
             paperPaint->addWidget(qb);
 
             // 这个应该在查询的时候就初始化好了，因为我需要设置答案
             t->getQte()->setFixedWidth(qsa->width()-35);
-            paperPaint->addWidget(t->getQte());
+            t->getQte()->setQtShow(qtshow);
 
+            paperPaint->addWidget(t->getQte());
         }
     }
 
     qsa->setWidget(paperView);
 }
 
-void PaperWidget::saveAnswer()
+void PaperWidget::saveAnswer(bool ok)
 {
     for(auto a: s.getCategoryTaskList()){
         for(auto t: a->getTaskList()){
             EsUtil::subjectService->savePaperAnswer(t);
         }
     }
-    QMessageBox::information(this,"成功","您的答案保存成功");
+    if(ok){
+        QMessageBox::information(this,"成功","您的答案保存成功");
+    }
 }

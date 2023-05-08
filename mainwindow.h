@@ -6,6 +6,7 @@
 #include "config/subjectservice.h"
 #include "extractpaper.h"
 #include "component/paperwidget.h"
+#include <QTextBrowser>
 
 
 
@@ -51,6 +52,8 @@ private slots:
 
     void on_makeAnswerBtn_clicked();
 
+    void on_helpAboutMenu_triggered();
+
 private:
     QSqlTableModel *model;
     Ui::MainWindow *ui;
@@ -59,6 +62,7 @@ private:
     ExtractPaper *ep = nullptr;
     SubjectService subjectService;
     PaperWidget* paperWidget;
+    QTextBrowser *aboutWindows = nullptr;
 
 };
 

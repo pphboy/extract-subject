@@ -2,6 +2,7 @@
 #include "daoconfig.h"
 #include <QMessageBox>
 #include <QDebug>
+#include "component/texteditdiv.h"
 #include "config/esutil.h"
 
 // query 对象
@@ -397,7 +398,7 @@ SPaper SubjectService::getSPaperById(int pid)
             query->exec(QString("select a_detail from s_answer where a_id = %1").arg(t->getAid()));
             query->next();
 
-            QTextEdit *qte = new QTextEdit;
+            TextEditDiv *qte = new TextEditDiv(t);
             qte->setHtml(query->value("a_detail").toString());
             t->setQte(qte);
         }
@@ -413,7 +414,7 @@ bool SubjectService::savePaperAnswer(Task *task)
                  UPDATE "main"."s_answer" SET  "a_detail" = ? WHERE "a_id" = ?;
                   )";
     query->prepare(sql);
-    qDebug() << task->getQte()->toHtml() << task->getAid();
+//    qDebug() << task->getQte()->toHtml() << task->getAid();
     query->bindValue(0,task->getQte()->toHtml());
     query->bindValue(1,task->getAid());
     bool ok = query->exec();

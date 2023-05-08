@@ -4,6 +4,8 @@
 
 #include <QTextEdit>
 #include <QString>
+#include "component/texteditdiv.h"
+
 
 class Task
 {
@@ -38,8 +40,8 @@ public:
     // 用来保存答案的ID
     void setAid(int aid) {this->aid = aid;};
     int getAid()  {return this->aid;};
-    QTextEdit* getQte(){return this->qte;};
-    void setQte(QTextEdit* qte){this->qte = qte;};
+    TextEditDiv* getQte(){return this->qte;};
+    void setQte(TextEditDiv* qte){this->qte = qte;};
 
 
 private:
@@ -57,7 +59,7 @@ private:
     /**
      * @brief 答案的输入框
      */
-    QTextEdit *qte;
+    TextEditDiv *qte;
 };
 
 #endif // TASK_H

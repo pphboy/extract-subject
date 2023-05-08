@@ -6,8 +6,8 @@
 #include <QMessageBox>
 #include <QDebug>
 #include "component/deletebutton.h"
-
 #include "config/esutil.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     // 设置窗口状态
-    this->setWindowFlags(Qt::WindowCloseButtonHint);
+//    this->setWindowFlags(Qt::WindowCloseButtonHint);
     this->setFixedSize(QSize(this->width(),this->height()));
 
     model = new QSqlTableModel(this);
@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 更新卷子表
     initPaperWidget();
+    qDebug() << "abc";
 
 }
 
@@ -242,4 +243,21 @@ void MainWindow::on_makeAnswerBtn_clicked()
 
     this->hide();
 
+}
+
+// 设置简介
+void MainWindow::on_helpAboutMenu_triggered()
+{
+    if(this->aboutWindows == nullptr){
+        this->aboutWindows = new QTextBrowser;
+        aboutWindows->setHtml(R"(
+                              <p>作者：皮豪</p>
+                              <p>项目地址：https://github.com/pphboy/extract-subject </p>
+                              )");
+        // Qt 设置窗口到顶，且不允许其他窗口操作
+        aboutWindows->setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+        aboutWindows->setWindowModality(Qt::ApplicationModal);
+
+    }
+    this->aboutWindows->show();
 }

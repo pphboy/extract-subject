@@ -18,63 +18,21 @@
     <normaloff>:/image/ExractSubjectLogo.png</normaloff>:/image/ExractSubjectLogo.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="0">
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>153</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>153</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="3">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>302</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>答案内容:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
+   <item row="1" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>选择分类:</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>答案内容:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
     <widget class="QComboBox" name="categoryBox">
      <property name="enabled">
       <bool>true</bool>
@@ -105,25 +63,77 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="3" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>153</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="3">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>302</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="1" rowspan="2" colspan="5">
+    <widget class="QTextEdit" name="answerEdit"/>
+   </item>
+   <item row="2" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>题目描述:</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="4">
+   <item row="1" column="5">
     <widget class="QPushButton" name="saveButton">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ctrl+S保存试题&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="text">
       <string>保存</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" rowspan="2" colspan="4">
+   <item row="5" column="0">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>153</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1" rowspan="2" colspan="5">
     <widget class="QTextEdit" name="questionEdit"/>
    </item>
-   <item row="3" column="1" rowspan="2" colspan="4">
-    <widget class="QTextEdit" name="answerEdit"/>
+   <item row="1" column="4">
+    <widget class="QCheckBox" name="addContinueBox">
+     <property name="text">
+      <string>继续添加</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

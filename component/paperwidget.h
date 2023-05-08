@@ -2,6 +2,7 @@
 #define PAPERWIDGET_H
 
 #include <QWidget>
+#include <QTextBrowser>
 #include <QLabel>
 #include <QScrollArea>
 #include <QGridLayout>
@@ -14,6 +15,7 @@ public:
     explicit PaperWidget(QWidget *parent = nullptr);
     virtual void closeEvent(QCloseEvent *event);
 
+    virtual void keyPressEvent(QKeyEvent *event);
     /**
      * @brief refreshPaper 刷新界面
      * @param pid
@@ -22,7 +24,7 @@ public:
     /**
      * @brief saveAnswer 保存答案
      */
-    void saveAnswer();
+    void saveAnswer(bool ok = true);
 
 private:
     QLabel* paperTitle;
@@ -30,6 +32,7 @@ private:
     QGridLayout *paperPaint;
     QWidget* paperView;
     SPaper s;
+    QTextBrowser *qtshow = nullptr;
 signals:
 
 };

@@ -18,6 +18,7 @@ SOURCES += \
     component/deletebutton.cpp \
     component/numberlineedit.cpp \
     component/paperwidget.cpp \
+    component/texteditdiv.cpp \
     config/daoconfig.cpp \
     config/esutil.cpp \
     config/subjectservice.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     component/deletebutton.h \
     component/numberlineedit.h \
     component/paperwidget.h \
+    component/texteditdiv.h \
     config/daoconfig.h \
     config/esutil.h \
     config/subjectservice.h \
